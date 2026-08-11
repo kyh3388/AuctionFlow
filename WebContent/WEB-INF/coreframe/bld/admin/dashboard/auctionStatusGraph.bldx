@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionStatusGraph">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="selectAuctionStatusGraph">
+			<!-- 도넛 그래프를 위한 경매 상태 개수 추출 -->
+			<query>
+				WITH
+				STATUS_LIST AS (
+					SELECT 1 AS STATUS_ORDER, 'ONGOING' AS STATUS_CODE, '진행 중' AS STATUS_NAME UNION ALL
+					SELECT 2 AS STATUS_ORDER, 'SOLD' AS STATUS_CODE, '낙찰' AS STATUS_NAME UNION ALL
+					SELECT 3 AS STATUS_ORDER, 'UNSOLD' AS STATUS_CODE, '유찰' AS STATUS_NAME UNION ALL
+					SELECT 4 AS STATUS_ORDER, 'CANCELED' AS STATUS_CODE, '취소' AS STATUS_NAME
+				)
+				
+				SELECT
+					S.STATUS_CODE,
+					S.STATUS_NAME,
+					COUNT(A.A_NO) AS STATUS_COUNT
+				FROM
+					STATUS_LIST S
+				LEFT JOIN
+					KYH_AF_AUCTION A
+				ON
+					A.A_STATUS = S.STATUS_CODE
+				GROUP BY
+					S.STATUS_ORDER,
+					S.STATUS_CODE,
+					S.STATUS_NAME
+				ORDER BY
+					S.STATUS_ORDER ASC
+			</query>
+
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>STATUS_CODE,STATUS_NAME,STATUS_COUNT</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="STATUS_CODE" type="string" />
+			<field name="STATUS_NAME" type="string" />
+			<field name="STATUS_COUNT" type="long" />
+		</block>
+	</output>
+</transaction>

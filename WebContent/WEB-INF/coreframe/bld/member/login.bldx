@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="memberLogin">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>rollback</transaction-type>
+		
+		<sql id="memberLogin">
+			
+			<query>
+				SELECT
+					M_NO,
+					M_ID,
+					M_NAME,
+					M_PW
+				FROM
+					KYH_AF_MEMBER
+				WHERE
+					M_ID = ?
+			</query>
+			
+			<mapping>
+				<setProperty>M_ID</setProperty>
+				<getProperty>M_NO,M_ID,M_NAME,M_PW</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="M_ID" type="string" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+			<field name="M_ID" type="string" />
+			<field name="M_NAME" type="string" />
+			<field name="M_PW" type="string" />
+		</block>
+	</output>
+</transaction>

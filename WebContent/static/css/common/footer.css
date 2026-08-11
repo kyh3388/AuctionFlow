@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+	border-top: 1px solid #eeeeee;
+	background-color: #f8f8f8;
+}
+
+.footer-inner {
+	width: min(1480px, calc(100% - 64px));
+	margin: 0 auto;
+	padding: 34px 0;
+}
+
+.footer-menu {
+	display: flex;
+	gap: 18px;
+	margin-bottom: 14px;
+}
+
+.footer-link {
+	font-size: 13px;
+	color: #333333;
+}
+
+.footer-link:hover {
+	text-decoration: underline;
+}
+
+.footer-text {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.6;
+	color: #777777;
+}

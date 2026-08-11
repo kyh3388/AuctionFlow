@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="memberFindId">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>rollback</transaction-type>
+		
+		<sql id="memberFindId">
+			
+			<query>
+				SELECT
+					M_ID
+				FROM
+					KYH_AF_MEMBER
+				WHERE
+					M_NAME = ?
+				AND
+					CASE ?
+						WHEN 'PHONE' THEN M_PHONE_NUMBER
+						WHEN 'EMAIL' THEN M_EMAIL
+						ELSE NULL
+					END = ?
+				ORDER BY
+					CREATED_DATETIME ASC,
+					M_NO ASC
+			</query>
+			
+			<mapping>
+				<setProperty>M_NAME,FIND_TYPE,FIND_VALUE</setProperty>
+				<getProperty>M_ID</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="M_NAME" type="string" />
+			<field name="FIND_TYPE" type="string" />
+			<field name="FIND_VALUE" type="string" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="0">
+			<field name="M_ID" type="string" />
+		</block>
+	</output>
+</transaction>

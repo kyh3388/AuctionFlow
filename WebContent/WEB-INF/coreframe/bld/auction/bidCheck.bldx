@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionBidCheck">
+
+	<processor-info type="dbms" datasource="auctionDB">
+		
+		<transaction-type>rollback</transaction-type>
+		
+		<!-- 입찰 사전 검증용 조회 -->
+		<sql id="selectAuctionBidCheck">
+
+			<query>
+				SELECT
+					A.A_NO,
+					A.M_NO AS SELLER_M_NO,
+					A.A_START_PRICE,
+					A.A_CURRENT_PRICE,
+					A.A_BID_COUNT,
+					A.A_STATUS,
+
+					CASE
+						WHEN A.A_END_DATETIME &lt;= NOW() THEN 1
+						ELSE 0
+					END AS IS_ENDED,
+
+					CASE
+						WHEN A.A_BID_COUNT = 0 THEN A.A_START_PRICE
+						ELSE A.A_CURRENT_PRICE + GREATEST(A.A_START_PRICE DIV 10, 50000)
+					END AS EXPECTED_BID_PRICE,
+
+					(
+						SELECT
+							COUNT(*)
+						FROM
+							KYH_AF_AUCTION_BID B
+						WHERE
+							B.BID_REQUEST_ID = ?
+					) AS DUPLICATE_REQUEST_COUNT
+
+				FROM
+					KYH_AF_AUCTION A
+
+				WHERE
+					A.A_NO = ?
+			</query>
+
+			<mapping>
+				<setProperty>BID_REQUEST_ID_CHECK,A_NO_CHECK</setProperty>
+				<getProperty>A_NO,SELLER_M_NO,A_START_PRICE,A_CURRENT_PRICE,A_BID_COUNT,A_STATUS,IS_ENDED,EXPECTED_BID_PRICE,DUPLICATE_REQUEST_COUNT</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="BID_REQUEST_ID_CHECK" type="string" />
+			<field name="A_NO_CHECK" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+			<field name="SELLER_M_NO" type="long" />
+			<field name="A_START_PRICE" type="long" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="A_BID_COUNT" type="long" />
+			<field name="A_STATUS" type="string" />
+			<field name="IS_ENDED" type="long" />
+			<field name="EXPECTED_BID_PRICE" type="long" />
+			<field name="DUPLICATE_REQUEST_COUNT" type="long" />
+		</block>
+	</output>
+</transaction>

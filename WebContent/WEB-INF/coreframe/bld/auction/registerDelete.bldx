@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="registerDelete">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>commit</transaction-type>
+
+		<sql id="deleteAuctionImage">
+
+			<query>
+				DELETE FROM
+					KYH_AF_AUCTION_IMG
+				WHERE
+					A_NO = :A_NO
+			</query>
+
+			<mapping>
+				<setProperty/>
+			</mapping>
+
+		</sql>
+
+		<sql id="deleteAuction">
+
+			<query>
+				DELETE FROM
+					KYH_AF_AUCTION
+				WHERE
+					A_NO = :A_NO
+			</query>
+
+			<mapping>
+				<setProperty/>
+			</mapping>
+
+		</sql>
+
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+		</block>
+	</output>
+
+</transaction>

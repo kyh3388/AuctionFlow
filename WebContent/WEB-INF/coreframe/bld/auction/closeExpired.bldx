@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionCloseExpired">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>commit</transaction-type>
+
+		<!--
+			종료 시간이 지난 진행 경매 상태 확정
+
+			최고 입찰자 존재 + 입찰 건수 1건 이상 : SOLD
+			최고 입찰자 없음 또는 입찰 0건 : UNSOLD
+		-->
+		<sql id="updateExpiredAuctionStatus">
+
+			<query>
+				UPDATE
+					KYH_AF_AUCTION
+				SET
+					A_STATUS = 
+					CASE
+						WHEN HIGHEST_BIDDER_M_NO IS NOT NULL 
+							AND A_BID_COUNT &gt; 0
+						THEN 'SOLD' ELSE 'UNSOLD'
+						END,
+					A_CLOSED_DATETIME = COALESCE(A_CLOSED_DATETIME, NOW()),
+					UPDATED_DATETIME = NOW()
+				WHERE
+					A_STATUS = 'ONGOING'
+				AND
+					A_END_DATETIME &lt;= NOW()
+			</query>
+
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+
+		<!-- 변경된 경매 수 확인 -->
+		<sql id="selectUpdatedCount">
+
+			<query>
+				SELECT ROW_COUNT() AS UPDATED_COUNT
+			</query>
+
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>UPDATED_COUNT</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="UPDATED_COUNT" type="long" />
+		</block>
+	</output>
+</transaction>

@@ -1,0 +1,385 @@
+@charset "UTF-8";
+
+/* =========================
+   COMMON RESET
+   ========================= */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scrollbar-gutter: stable;
+}
+
+body {
+	margin: 0;
+	background-color: #ffffff;
+	color: #111111;
+	font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+	font-family: inherit;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+.auction-register-page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.auction-register-page .header,
+.auction-register-page .footer {
+	flex-shrink: 0;
+}
+
+/* =========================
+   MAIN
+   ========================= */
+
+.auction-register-page .main {
+	flex: 1;
+	min-height: 0;
+	padding: 72px 0 100px;
+	background-color: #ffffff;
+}
+
+.auction-register-page .auction-register {
+	width: 100%;
+}
+
+.auction-register-page .auction-register-inner {
+	width: 560px;
+	margin: 0 auto;
+}
+
+.auction-register-page .title-box {
+	margin-bottom: 42px;
+	text-align: center;
+}
+
+.auction-register-page .title {
+	margin: 0;
+	font-size: 34px;
+	font-weight: 800;
+	letter-spacing: -0.05em;
+	color: #000000;
+}
+
+/* =========================
+   GUIDE
+   ========================= */
+
+.auction-register-page .guide-box {
+	margin-bottom: 32px;
+	padding: 24px 26px;
+	background-color: #f7f7f7;
+}
+
+.auction-register-page .guide-text {
+	margin: 0 0 9px;
+	font-size: 14px;
+	line-height: 1.7;
+	color: #666666;
+}
+
+.auction-register-page .guide-text:last-child {
+	margin-bottom: 0;
+}
+
+/* =========================
+   FORM
+   ========================= */
+
+.auction-register-page .form {
+	border-top: 1px solid #d5d5d5;
+	border-bottom: 1px solid #d5d5d5;
+	padding: 32px 0 30px;
+}
+
+.auction-register-page .form-row {
+	margin-bottom: 18px;
+}
+
+.auction-register-page .form-row:last-child {
+	margin-bottom: 0;
+}
+
+.auction-register-page .label {
+	display: block;
+	margin-bottom: 8px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #111111;
+}
+
+.auction-register-page .input,
+.auction-register-page .select-input {
+	width: 100%;
+	height: 48px;
+	padding: 0 14px;
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	font-size: 15px;
+	color: #222222;
+	outline: none;
+}
+
+.auction-register-page .textarea {
+	width: 100%;
+	height: 180px;
+	padding: 14px;
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	font-size: 15px;
+	line-height: 1.7;
+	color: #222222;
+	outline: none;
+	resize: vertical;
+}
+
+.auction-register-page .input:focus,
+.auction-register-page .select-input:focus,
+.auction-register-page .textarea:focus {
+	border-color: #55c8c8;
+	box-shadow: 0 0 0 1px #55c8c8;
+}
+
+.auction-register-page .input::placeholder,
+.auction-register-page .textarea::placeholder {
+	color: #aaaaaa;
+}
+
+/* =========================
+   FILE UPLOAD
+   ========================= */
+
+.auction-register-page .file-box {
+	width: 100%;
+	padding: 18px 18px 16px;
+	border: 1px dashed #cfcfcf;
+	background-color: #fafafa;
+}
+
+.auction-register-page .file-input {
+	width: 100%;
+	height: 42px;
+	padding: 8px 10px;
+	border: 1px solid #d8d8d8;
+	background-color: #ffffff;
+	font-size: 14px;
+	color: #333333;
+	cursor: pointer;
+}
+
+.auction-register-page .file-input:focus {
+	border-color: #55c8c8;
+	box-shadow: 0 0 0 1px #55c8c8;
+	outline: none;
+}
+
+.auction-register-page .file-guide {
+	margin: 8px 0 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #777777;
+}
+
+.auction-register-page .file-guide:first-of-type {
+	margin-top: 12px;
+}
+
+/* =========================
+   PRICE INPUT
+   ========================= */
+
+.auction-register-page .price-input-wrap {
+	display: flex;
+	width: 100%;
+	height: 48px;
+}
+
+.auction-register-page .price-step-btn {
+	flex: 0 0 48px;
+	width: 48px;
+	height: 48px;
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	font-size: 20px;
+	font-weight: 700;
+	color: #333333;
+	cursor: pointer;
+	line-height: 1;
+}
+
+.auction-register-page .price-step-btn:hover {
+	background-color: #f5f5f5;
+}
+
+.auction-register-page .price-step-btn:focus {
+	border-color: #55c8c8;
+	box-shadow: 0 0 0 1px #55c8c8;
+	outline: none;
+	position: relative;
+	z-index: 1;
+}
+
+.auction-register-page .price-step-btn:first-child {
+	border-right: 0;
+}
+
+.auction-register-page .price-step-btn:last-child {
+	border-left: 0;
+}
+
+.auction-register-page .price-input-wrap .price-input {
+	flex: 1;
+	width: auto;
+	min-width: 0;
+	height: 48px;
+	border-left: 0;
+	border-right: 0;
+	text-align: right;
+}
+
+.auction-register-page .price-input-wrap .price-input:focus {
+	position: relative;
+	z-index: 1;
+}
+
+.auction-register-page .price-guide {
+	margin: 8px 0 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #777777;
+}
+
+/* =========================
+   MESSAGE
+   ========================= */
+
+.auction-register-page .message {
+	min-height: 20px;
+	margin: 12px 0 0;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.auction-register-page .auction-register-message {
+	color: #d93025;
+}
+
+/* =========================
+   BUTTON
+   ========================= */
+
+.auction-register-page .button-area {
+	display: flex;
+	gap: 10px;
+	margin-top: 32px;
+}
+
+.auction-register-page .btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 3px;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.auction-register-page .btn-submit,
+.auction-register-page .btn-cancel {
+	flex: 1;
+	height: 50px;
+}
+
+.auction-register-page .btn-submit {
+	border: 1px solid #48baba;
+	background-color: #5ccaca;
+	color: #ffffff;
+}
+
+.auction-register-page .btn-submit:hover {
+	background-color: #48baba;
+}
+
+.auction-register-page .btn-cancel {
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	color: #333333;
+}
+
+.auction-register-page .btn-cancel:hover {
+	background-color: #f5f5f5;
+}
+
+/* =========================
+   SUB IMAGE ADD INPUT
+   ========================= */
+
+.auction-register-page .sub-image-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.auction-register-page .sub-image-row {
+	display: flex;
+	width: 100%;
+	gap: 8px;
+}
+
+.auction-register-page .sub-image-input {
+	flex: 1;
+	min-width: 0;
+}
+
+.auction-register-page .sub-image-remove-btn {
+	flex: 0 0 64px;
+	width: 64px;
+	height: 42px;
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	font-size: 13px;
+	font-weight: 700;
+	color: #333333;
+	cursor: pointer;
+}
+
+.auction-register-page .sub-image-remove-btn:hover {
+	background-color: #f5f5f5;
+}
+
+.auction-register-page .sub-image-add-btn {
+	margin-top: 10px;
+	width: 100%;
+	height: 42px;
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	font-size: 14px;
+	font-weight: 700;
+	color: #333333;
+	cursor: pointer;
+}
+
+.auction-register-page .sub-image-add-btn:hover {
+	background-color: #f5f5f5;
+}
+

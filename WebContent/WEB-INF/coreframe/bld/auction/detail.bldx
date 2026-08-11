@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionDetail">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>rollback</transaction-type>
+		
+		<sql id="auctionDetail">
+			
+			<query>
+				SELECT
+					A_NO,
+					A_CATEGORY,
+					A_TITLE,
+					A_CONTENT,
+					A_START_PRICE,
+					A_CURRENT_PRICE,
+					A_BID_COUNT,
+					A_STATUS,
+					A_ADMIN_REASON,
+					
+					DATE_FORMAT(A_END_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_END_DATETIME,
+					DATE_FORMAT(A_CLOSED_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_CLOSED_DATETIME,
+					DATE_FORMAT(CREATED_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATED_DATETIME
+				FROM
+					KYH_AF_AUCTION
+				WHERE
+					A_NO = :A_NO
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>A_NO,A_CATEGORY,A_TITLE,A_CONTENT,A_START_PRICE,A_CURRENT_PRICE,A_BID_COUNT,A_STATUS,A_ADMIN_REASON,A_END_DATETIME,A_CLOSED_DATETIME,CREATED_DATETIME</getProperty>
+			</mapping>
+		</sql>
+		
+		<sql id="auctionDetailImageList">
+			
+			<query>
+				SELECT
+					IMG_NO,
+					IMG_TYPE,
+					IMG_STORED_NAME
+				FROM
+					KYH_AF_AUCTION_IMG
+				WHERE
+					A_NO = :A_NO
+				ORDER BY
+					CASE
+						WHEN IMG_TYPE = 'MAIN' THEN 0
+						ELSE 1
+					END,
+					IMG_NO ASC
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>IMG_NO,IMG_TYPE,IMG_STORED_NAME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+		</block>
+	</input>
+	
+	<output>
+		<block name="detail" repeat="1">
+			<field name="A_NO" type="long" />
+			<field name="A_CATEGORY" type="string" />
+			<field name="A_TITLE" type="string" />
+			<field name="A_CONTENT" type="string" />
+			<field name="A_START_PRICE" type="long" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="A_BID_COUNT" type="int" />
+			
+			<field name="A_STATUS" type="string" />
+			<field name="A_ADMIN_REASON" type="string" />
+			<field name="A_END_DATETIME" type="string" />
+			<field name="A_CLOSED_DATETIME" type="string" />
+			<field name="CREATED_DATETIME" type="string" />
+		</block>
+		<block name="imageList">
+			<field name="IMG_NO" type="long" />
+			<field name="IMG_TYPE" type="string" />
+			<field name="IMG_STORED_NAME" type="string" />
+		</block>
+	</output>
+</transaction>

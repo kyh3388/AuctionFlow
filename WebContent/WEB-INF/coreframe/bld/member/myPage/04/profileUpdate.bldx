@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="profileUpdate">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>commit</transaction-type>
+
+		<sql id="updateProfile">
+
+			<query>
+				UPDATE
+					KYH_AF_MEMBER
+				SET
+				    M_NAME = ?,
+					M_PHONE_NUMBER = ?,
+					M_EMAIL = ?,
+					M_ADDRESS = ?,
+					UPDATED_DATETIME = NOW()
+				WHERE
+					M_NO = ?
+			</query>
+
+			<mapping>
+				<setProperty>M_NAME,M_PHONE_NUMBER,M_EMAIL,M_ADDRESS,M_NO</setProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="M_NAME" type="string" />
+			<field name="M_PHONE_NUMBER" type="string" />
+			<field name="M_EMAIL" type="string" />
+			<field name="M_ADDRESS" type="string" />
+			<field name="M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+		</block>
+	</output>
+</transaction>

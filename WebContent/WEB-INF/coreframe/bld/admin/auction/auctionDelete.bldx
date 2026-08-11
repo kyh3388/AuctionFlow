@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionDelete">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>commit</transaction-type>
+		
+		<!-- 경매 영구 삭제 -->
+		<sql id="1">
+			
+			<query>
+			
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+			<field />
+		</block>
+	</output>
+</transaction>

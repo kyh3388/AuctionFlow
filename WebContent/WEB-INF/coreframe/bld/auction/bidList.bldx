@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionBidList">
+
+	<processor-info type="dbms" datasource="auctionDB">
+		
+		<transaction-type>rollback</transaction-type>
+		
+		<!-- 경매별 입찰 이력 조회 -->
+		<sql id="selectAuctionBidList">
+
+			<query>
+				SELECT
+					B.BID_NO,
+					B.A_NO,
+					B.M_NO,
+					M.M_ID,
+					B.BID_PRICE,
+					DATE_FORMAT(B.BID_DATETIME, '%Y-%m-%d %H:%i:%s') AS BID_DATETIME
+				FROM
+					KYH_AF_AUCTION_BID B
+				INNER JOIN
+					KYH_AF_MEMBER M
+				ON
+					M.M_NO = B.M_NO
+				WHERE
+					B.A_NO = ?
+				ORDER BY
+					B.BID_DATETIME DESC,
+					B.BID_NO DESC
+			</query>
+
+			<mapping>
+				<setProperty>A_NO</setProperty>
+				<getProperty>BID_NO,A_NO,M_NO,M_ID,BID_PRICE,BID_DATETIME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="0">
+			<field name="BID_NO" type="long" />
+			<field name="A_NO" type="long" />
+			<field name="M_NO" type="long" />
+			<field name="M_ID" type="string" />
+			<field name="BID_PRICE" type="long" />
+			<field name="BID_DATETIME" type="string" />
+		</block>
+	</output>
+</transaction>

@@ -1,0 +1,569 @@
+@charset "UTF-8";
+
+/* =========================
+   COMMON RESET
+   ========================= */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scrollbar-gutter: stable;
+}
+
+body {
+	margin: 0;
+	background-color: #ffffff;
+	color: #111111;
+	font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button {
+	font-family: inherit;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+.find-id-page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.find-id-page .header,
+.find-id-page .footer {
+	flex-shrink: 0;
+}
+
+/* =========================
+   HIDDEN CONTROL
+   ========================= */
+
+.find-id-page .is-hidden,
+.find-id-page .find-id-row.is-hidden,
+.find-id-page [hidden] {
+	display: none !important;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+	background-color: #ffffff;
+	border-bottom: 1px solid #eeeeee;
+}
+
+.header-top {
+	height: 56px;
+}
+
+.header-top-inner {
+	width: min(1480px, calc(100% - 64px));
+	height: 56px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.logo {
+	font-size: 29px;
+	font-weight: 700;
+	letter-spacing: -0.04em;
+	color: #111111;
+}
+
+.user-menu {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 13px;
+	color: #111111;
+}
+
+.user-link {
+	color: #111111;
+}
+
+.user-link:hover {
+	text-decoration: underline;
+}
+
+.user-divider {
+	color: #cfcfcf;
+	font-size: 12px;
+}
+
+.search-open-btn {
+	display: flex;
+	align-items: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+	cursor: pointer;
+	
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.search-open-btn:hover {
+	color: #111111;
+}
+
+.header-bottom {
+	height: 48px;
+	border-top: 1px solid #f5f5f5;
+}
+
+.nav {
+	width: min(1480px, calc(100% - 64px));
+	height: 48px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 120px;
+}
+
+.nav-link {
+	font-size: 17px;
+	font-weight: 700;
+	color: #111111;
+}
+
+.nav-link:hover {
+	text-decoration: underline;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+	border-top: 1px solid #eeeeee;
+	background-color: #f8f8f8;
+}
+
+.footer-inner {
+	width: min(1480px, calc(100% - 64px));
+	margin: 0 auto;
+	padding: 34px 0;
+}
+
+.footer-menu {
+	display: flex;
+	gap: 18px;
+	margin-bottom: 14px;
+}
+
+.footer-link {
+	font-size: 13px;
+	color: #333333;
+}
+
+.footer-link:hover {
+	text-decoration: underline;
+}
+
+.footer-text {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.6;
+	color: #777777;
+}
+
+/* =========================
+   MAIN
+   ========================= */
+
+.find-id-page .main {
+	flex: 1;
+	min-height: 0;
+	padding: 72px 0 100px;
+	background-color: #ffffff;
+}
+
+.find-id-page .find-id {
+	width: 100%;
+}
+
+.find-id-page .find-id-inner {
+	width: 460px;
+	margin: 0 auto;
+}
+
+.find-id-page .find-id-title {
+	margin: 0 0 52px;
+	text-align: center;
+	font-size: 34px;
+	font-weight: 800;
+	letter-spacing: -0.05em;
+	color: #000000;
+}
+
+/* =========================
+   GUIDE
+   ========================= */
+
+.find-id-page .find-id-guide {
+	margin-bottom: 38px;
+}
+
+.find-id-page .find-id-guide-text {
+	margin: 0 0 13px;
+	font-size: 16px;
+	line-height: 1.6;
+	letter-spacing: -0.04em;
+	color: #222222;
+}
+
+.find-id-page .find-id-guide-text strong {
+	margin-left: 4px;
+	font-weight: 800;
+}
+
+/* =========================
+   FORM
+   ========================= */
+
+.find-id-page .find-id-form {
+	border-top: 1px solid #d5d5d5;
+	border-bottom: 1px solid #d5d5d5;
+	padding: 32px 0 30px;
+}
+
+.find-id-page .find-id-method {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 44px;
+	margin-bottom: 32px;
+}
+
+.find-id-page .find-id-radio-label,
+.find-id-page .find-id-method .find-id-label {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 15px;
+	font-weight: 400;
+	letter-spacing: 0;
+	color: #222222;
+	cursor: pointer;
+}
+
+.find-id-page .find-id-radio {
+	width: 19px;
+	height: 19px;
+	margin: 0;
+	accent-color: #55c8c8;
+	cursor: pointer;
+}
+
+.find-id-page .find-id-radio-text {
+	font-size: 15px;
+	line-height: 1;
+}
+
+.find-id-page .find-id-input-area {
+	width: 100%;
+}
+
+.find-id-page .find-id-row {
+	display: grid;
+	grid-template-columns: 120px 1fr;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.find-id-page .find-id-row:last-child {
+	margin-bottom: 0;
+}
+
+.find-id-page .find-id-row > .find-id-label {
+	font-size: 21px;
+	font-weight: 800;
+	letter-spacing: -0.06em;
+	color: #111111;
+}
+
+.find-id-page .find-id-input {
+	width: 100%;
+	height: 48px;
+	padding: 0 14px;
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	font-size: 16px;
+	color: #222222;
+	outline: none;
+}
+
+.find-id-page .find-id-input:focus {
+	border-color: #55c8c8;
+	box-shadow: 0 0 0 1px #55c8c8;
+}
+
+.find-id-page .find-id-input::placeholder {
+	color: #aaaaaa;
+}
+
+.find-id-page .find-id-message {
+	margin: 20px 0 0 120px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #d93025;
+}
+
+.find-id-page .find-id-button-area {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.find-id-page .find-id-btn {
+	width: 170px;
+	height: 42px;
+	border: 1px solid #48baba;
+	border-radius: 3px;
+	background-color: #5ccaca;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.find-id-page .find-id-btn:hover {
+	background-color: #48baba;
+}
+
+/* =========================
+   NOTICE
+   ========================= */
+
+.find-id-page .find-id-notice {
+	margin-top: 38px;
+	padding: 28px 30px;
+	background-color: #f7f7f7;
+}
+
+.find-id-page .find-id-notice-title {
+	margin: 0 0 14px;
+	font-size: 19px;
+	font-weight: 800;
+	color: #111111;
+}
+
+.find-id-page .find-id-notice-text {
+	margin: 0 0 8px;
+	font-size: 14px;
+	line-height: 1.7;
+	color: #666666;
+}
+
+.find-id-page .find-id-notice-text:last-child {
+	margin-bottom: 0;
+}
+
+/* =========================
+   DIALOG
+   ========================= */
+
+.find-id-page .find-id-dialog {
+	width: 620px;
+	padding: 0;
+	border: 0;
+	background-color: #ffffff;
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.find-id-page .find-id-dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.58);
+}
+
+.find-id-page .find-id-dialog-inner {
+	position: relative;
+	padding: 58px 40px 40px;
+	border-top: 5px solid #55c8c8;
+	text-align: center;
+}
+
+.find-id-page .find-id-dialog-title {
+	margin: 0 0 34px;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.5;
+	letter-spacing: -0.05em;
+	color: #333333;
+}
+
+.find-id-page .find-id-dialog-title strong {
+	margin: 0 4px;
+	color: #0aa3a3;
+	font-weight: 900;
+}
+
+.find-id-page .find-id-dialog-guide {
+	margin: 0 auto 30px;
+	padding: 26px 28px;
+	background-color: #f5f5f5;
+	text-align: left;
+}
+
+.find-id-page .find-id-dialog-text {
+	margin: 0 0 9px;
+	font-size: 15px;
+	line-height: 1.7;
+	color: #777777;
+}
+
+.find-id-page .find-id-dialog-text:last-child {
+	margin-bottom: 0;
+}
+
+.find-id-page .find-id-dialog-button-area {
+	text-align: center;
+}
+
+.find-id-page .find-id-dialog-confirm-btn {
+	width: 170px;
+	height: 40px;
+	border: 1px solid #48baba;
+	border-radius: 3px;
+	background-color: #5ccaca;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.find-id-page .find-id-dialog-confirm-btn:hover {
+	background-color: #48baba;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+	border-top: 1px solid #eeeeee;
+	background-color: #f8f8f8;
+}
+
+.footer-inner {
+	width: 1220px;
+	margin: 0 auto;
+	padding: 34px 0;
+}
+
+.footer-menu {
+	display: flex;
+	gap: 18px;
+	margin-bottom: 14px;
+}
+
+.footer-link {
+	font-size: 13px;
+	color: #333333;
+}
+
+.footer-link:hover {
+	text-decoration: underline;
+}
+
+.footer-text {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.6;
+	color: #777777;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+
+	.header-top-inner,
+	.footer-inner {
+		width: calc(100% - 32px);
+	}
+
+	.header-top {
+		height: auto;
+	}
+
+	.header-top-inner {
+		min-height: 56px;
+	}
+
+	.logo {
+		font-size: 23px;
+	}
+
+	.user-menu {
+		gap: 7px;
+		font-size: 12px;
+	}
+
+	.nav {
+		gap: 44px;
+	}
+
+	.nav-link {
+		font-size: 15px;
+	}
+
+	.find-id-page .main {
+		padding: 54px 0 80px;
+	}
+
+	.find-id-page .find-id-inner {
+		width: calc(100% - 44px);
+	}
+
+	.find-id-page .find-id-title {
+		margin-bottom: 38px;
+		font-size: 30px;
+	}
+
+	.find-id-page .find-id-method {
+		gap: 24px;
+	}
+
+	.find-id-page .find-id-row {
+		grid-template-columns: 1fr;
+		gap: 8px;
+		margin-bottom: 16px;
+	}
+
+	.find-id-page .find-id-row > .find-id-label {
+		font-size: 18px;
+	}
+
+	.find-id-page .find-id-message {
+		margin-left: 0;
+	}
+
+	.find-id-page .find-id-dialog {
+		width: calc(100% - 36px);
+	}
+
+	.find-id-page .find-id-dialog-inner {
+		padding: 54px 24px 34px;
+	}
+
+	.find-id-page .find-id-dialog-title {
+		font-size: 21px;
+	}
+}

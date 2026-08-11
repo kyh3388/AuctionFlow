@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="purchaseHistory">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="selectPurchaseHistory">
+
+			<query>
+				SELECT
+					A_NO,
+					A_TITLE,
+					A_CURRENT_PRICE,
+					
+					FLOOR(A_CURRENT_PRICE * 0.1) AS PURCHASE_FEE,
+					A_CURRENT_PRICE + FLOOR(A_CURRENT_PRICE * 0.1) AS PURCHASE_PRICE,
+					
+					A_CLOSED_DATETIME,
+					A_PURCHASED_DATETIME
+				FROM
+					KYH_AF_AUCTION A
+				WHERE
+					A_STATUS = 'SOLD'
+					AND HIGHEST_BIDDER_M_NO = ?
+				ORDER BY
+					A_CLOSED_DATETIME DESC
+			</query>
+
+			<mapping>
+				<setProperty>HIGHEST_BIDDER_M_NO</setProperty>
+				<getProperty>A_NO,A_TITLE,A_CURRENT_PRICE,PURCHASE_FEE,PURCHASE_PRICE,A_CLOSED_DATETIME,A_PURCHASED_DATETIME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="HIGHEST_BIDDER_M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+
+		<!-- 낙찰 상품 목록이므로 가변 반복 -->
+		<block repeat="0">
+			<field name="A_NO" type="long" />
+			<field name="A_TITLE" type="string" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="PURCHASE_FEE" type="long" />
+			<field name="PURCHASE_PRICE" type="long" />
+			<field name="A_CLOSED_DATETIME" type="string" />
+			<field name="A_PURCHASED_DATETIME" type="string" />
+		</block>
+	</output>
+</transaction>

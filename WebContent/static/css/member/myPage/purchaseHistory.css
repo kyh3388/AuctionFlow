@@ -1,0 +1,292 @@
+@charset "UTF-8";
+
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scrollbar-gutter: stable;
+}
+
+.mypage-body {
+	margin: 0;
+	background-color: #ffffff;
+	color: #222222;
+	font-family:
+		"Malgun Gothic",
+		"Apple SD Gothic Neo",
+		Arial,
+		sans-serif;
+}
+
+.mypage-main {
+	width: 100%;
+	padding: 56px 20px 90px;
+}
+
+.mypage-layout {
+	display: flex;
+	align-items: flex-start;
+	gap: 44px;
+	width: 100%;
+	max-width: 1320px;
+	margin: 0 auto;
+}
+
+.mypage-content {
+	flex: 1;
+	min-width: 0;
+}
+
+.mypage-content-header {
+	padding-bottom: 22px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.mypage-page-title {
+	margin: 0;
+	color: #111111;
+	font-size: 30px;
+	font-weight: 800;
+	letter-spacing: -1.2px;
+	line-height: 1.3;
+}
+
+.mypage-page-description {
+	margin: 14px 0 0;
+	color: #777777;
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+
+/* 결과 메시지 */
+
+.purchase-message {
+	min-height: 22px;
+	margin-top: 18px;
+	color: #777777;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.6;
+	text-align: center;
+}
+
+.purchase-message:empty {
+	display: none;
+}
+
+.purchase-message.error {
+	color: #d94b4b;
+}
+
+
+/* 구매 영역 */
+
+.purchase-section {
+	margin-top: 34px;
+}
+
+.purchase-section.completed {
+	margin-top: 64px;
+}
+
+.purchase-section-header {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 20px;
+	margin-bottom: 16px;
+}
+
+.purchase-section-title {
+	margin: 0;
+	color: #222222;
+	font-size: 21px;
+	font-weight: 800;
+	letter-spacing: -0.6px;
+	line-height: 1.4;
+}
+
+.purchase-section-description {
+	margin: 7px 0 0;
+	color: #888888;
+	font-size: 12px;
+	line-height: 1.6;
+}
+
+.purchase-section-count {
+	color: #555555;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+
+/* 테이블 */
+
+.purchase-table-wrapper {
+	width: 100%;
+	overflow-x: auto;
+	border-top: 2px solid #222222;
+}
+
+.purchase-table {
+	width: 100%;
+	min-width: 920px;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.purchase-table th {
+	height: 48px;
+	padding: 10px 8px;
+	border-bottom: 1px solid #cccccc;
+	background-color: #fafafa;
+	color: #444444;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.purchase-table td {
+	height: 78px;
+	padding: 14px 10px;
+	border-bottom: 1px solid #eeeeee;
+	color: #444444;
+	font-size: 12px;
+	line-height: 1.5;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.purchase-table tbody tr:hover {
+	background-color: #fcfcfc;
+}
+
+.purchase-col-product {
+	width: 25%;
+}
+
+.purchase-col-price {
+	width: 14%;
+}
+
+.purchase-col-fee {
+	width: 12%;
+}
+
+.purchase-col-total {
+	width: 16%;
+}
+
+.purchase-col-date {
+	width: 20%;
+}
+
+.purchase-col-management {
+	width: 13%;
+}
+
+
+/* 셀 */
+
+.purchase-product-cell {
+	text-align: left !important;
+}
+
+.purchase-product-link {
+	display: inline-block;
+	max-width: 100%;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: #222222;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.5;
+	text-align: left;
+	text-decoration: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+}
+
+.purchase-product-link:hover {
+	color: #159d9d;
+	text-decoration: underline;
+}
+
+.purchase-price-cell,
+.purchase-fee-cell {
+	color: #555555 !important;
+}
+
+.purchase-total-cell {
+	color: #e00000 !important;
+	font-size: 13px !important;
+	font-weight: 800;
+}
+
+.purchase-date-cell {
+	color: #777777 !important;
+	font-size: 11px !important;
+}
+
+.purchase-empty-cell {
+	height: 150px !important;
+	color: #999999 !important;
+	font-size: 13px !important;
+}
+
+
+/* 구매 버튼 */
+
+.purchase-complete-form {
+	margin: 0;
+}
+
+.purchase-button {
+	min-width: 84px;
+	height: 36px;
+	padding: 0 14px;
+	border: 1px solid #43bdbd;
+	border-radius: 2px;
+	background-color: #43bdbd;
+	color: #ffffff;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	transition:
+		border-color 0.15s ease,
+		background-color 0.15s ease;
+}
+
+.purchase-button:hover {
+	border-color: #319f9f;
+	background-color: #319f9f;
+}
+
+.purchase-button:disabled {
+	border-color: #b8dede;
+	background-color: #b8dede;
+	cursor: default;
+}
+
+.purchase-completed-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 76px;
+	height: 32px;
+	padding: 0 12px;
+	border: 1px solid #d4ecec;
+	border-radius: 16px;
+	background-color: #f2fbfb;
+	color: #168d8d;
+	font-size: 11px;
+	font-weight: 700;
+}

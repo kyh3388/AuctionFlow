@@ -1,0 +1,572 @@
+@charset "UTF-8";
+
+
+/* =========================
+   기본 페이지
+   ========================= */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scrollbar-gutter: stable;
+}
+
+.mypage-body {
+	margin: 0;
+	background-color: #ffffff;
+	color: #222222;
+	font-family:
+		"Malgun Gothic",
+		"Apple SD Gothic Neo",
+		Arial,
+		sans-serif;
+}
+
+.mypage-main {
+	width: 100%;
+	padding: 56px 20px 90px;
+}
+
+.mypage-layout {
+	display: flex;
+	align-items: flex-start;
+	gap: 44px;
+	width: 100%;
+	max-width: 1320px;
+	margin: 0 auto;
+}
+
+.mypage-content {
+	flex: 1;
+	min-width: 0;
+}
+
+
+/* =========================
+   페이지 제목
+   ========================= */
+
+.mypage-content-header {
+	padding-bottom: 22px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.mypage-page-title {
+	margin: 0;
+	color: #111111;
+	font-size: 30px;
+	font-weight: 800;
+	letter-spacing: -1.2px;
+	line-height: 1.3;
+}
+
+.mypage-page-description {
+	margin: 10px 0 0;
+	color: #777777;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+
+/* =========================
+   목록 건수
+   ========================= */
+
+.bid-history-summary {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	min-height: 58px;
+}
+
+.bid-history-count {
+	margin: 0;
+	color: #777777;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.bid-history-count strong {
+	margin: 0 2px 0 4px;
+	color: #111111;
+	font-size: 16px;
+	font-weight: 800;
+}
+
+
+/* =========================
+   빈 목록
+   ========================= */
+
+.bid-history-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 410px;
+	padding: 60px 30px;
+	border-top: 2px solid #222222;
+	border-bottom: 1px solid #dddddd;
+	background-color: #fafafa;
+	text-align: center;
+}
+
+.bid-history-empty-title {
+	color: #222222;
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.5;
+}
+
+.bid-history-empty-text {
+	margin: 12px 0 0;
+	color: #888888;
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+.bid-history-empty-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 138px;
+	height: 44px;
+	margin-top: 28px;
+	padding: 0 20px;
+	border: 1px solid #42bcbc;
+	border-radius: 3px;
+	background-color: #42bcbc;
+	color: #ffffff;
+	font-size: 13px;
+	font-weight: 700;
+	text-decoration: none;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease;
+}
+
+.bid-history-empty-button:hover {
+	border-color: #319f9f;
+	background-color: #319f9f;
+}
+
+
+/* =========================
+   테이블 기본
+   ========================= */
+
+.bid-history-table-wrap {
+	width: 100%;
+	overflow-x: auto;
+	border-top: 2px solid #222222;
+}
+
+.bid-history-table {
+	width: 100%;
+	min-width: 1140px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: fixed;
+}
+
+.bid-history-table th {
+	height: 54px;
+	padding: 0 10px;
+	border-bottom: 1px solid #dddddd;
+	background-color: #fafafa;
+	color: #444444;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.4;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.bid-history-table td {
+	height: 112px;
+	padding: 15px 10px;
+	border-bottom: 1px solid #eeeeee;
+	background-color: #ffffff;
+	color: #555555;
+	font-size: 12px;
+	line-height: 1.5;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.bid-history-table tbody tr {
+	transition: background-color 0.15s ease;
+}
+
+.bid-history-table tbody tr:hover td {
+	background-color: #fbfefe;
+}
+
+
+/* =========================
+   컬럼 너비
+   ========================= */
+
+.bid-history-col-product {
+	width: 275px;
+}
+
+.bid-history-col-my-price {
+	width: 125px;
+}
+
+.bid-history-col-current-price {
+	width: 130px;
+}
+
+.bid-history-col-count {
+	width: 95px;
+}
+
+.bid-history-col-date {
+	width: 135px;
+}
+
+.bid-history-col-status {
+	width: 90px;
+}
+
+.bid-history-col-result {
+	width: 150px;
+}
+
+.bid-history-col-management {
+	width: 90px;
+}
+
+
+/* =========================
+   상품
+   ========================= */
+
+.bid-history-product-cell {
+	padding-left: 14px !important;
+	text-align: left !important;
+}
+
+.bid-history-product-link {
+	display: grid;
+	grid-template-columns: 78px minmax(0, 1fr);
+	align-items: center;
+	gap: 14px;
+	min-width: 0;
+	color: inherit;
+	text-decoration: none;
+}
+
+.bid-history-image-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 78px;
+	height: 78px;
+	overflow: hidden;
+	border: 1px solid #e8e8e8;
+	border-radius: 3px;
+	background-color: #f7f7f7;
+}
+
+.bid-history-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.bid-history-image-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	color: #aaaaaa;
+	font-size: 9px;
+	font-weight: 700;
+	letter-spacing: 0.3px;
+}
+
+.bid-history-product-info {
+	min-width: 0;
+}
+
+.bid-history-auction-number {
+	display: block;
+	margin-bottom: 7px;
+	color: #999999;
+	font-size: 10px;
+	font-weight: 500;
+	line-height: 1.3;
+}
+
+.bid-history-product-title {
+	display: -webkit-box;
+	overflow: hidden;
+	color: #222222;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.5;
+	word-break: break-word;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.bid-history-product-link:hover
+.bid-history-product-title {
+	color: #269999;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+
+/* =========================
+   가격
+   ========================= */
+
+.bid-history-price-cell {
+	word-break: keep-all;
+}
+
+.bid-history-price-cell strong {
+	display: block;
+	color: #333333;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.5;
+	white-space: nowrap;
+}
+
+.bid-history-price-cell.my-price strong {
+	color: #111111;
+	font-size: 14px;
+	font-weight: 800;
+}
+
+.bid-history-price-cell.current-price strong {
+	color: #e00000;
+	font-size: 14px;
+	font-weight: 800;
+}
+
+.bid-history-price-label {
+	display: block;
+	margin-bottom: 5px;
+	color: #888888;
+	font-size: 10px;
+	font-weight: 500;
+	line-height: 1.3;
+}
+
+
+/* =========================
+   입찰 횟수
+   ========================= */
+
+.bid-history-count-cell {
+	color: #777777 !important;
+	white-space: nowrap;
+}
+
+.bid-history-count-cell strong {
+	margin-right: 2px;
+	color: #111111;
+	font-size: 15px;
+	font-weight: 800;
+}
+
+
+/* =========================
+   날짜
+   ========================= */
+
+.bid-history-date-cell {
+	color: #777777 !important;
+	font-size: 11px !important;
+	line-height: 1.6 !important;
+	word-break: keep-all;
+}
+
+
+/* =========================
+   경매 상태
+   ========================= */
+
+.bid-history-status {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 66px;
+	height: 29px;
+	padding: 0 10px;
+	border: 1px solid #cccccc;
+	border-radius: 14px;
+	background-color: #ffffff;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.bid-history-status.ongoing {
+	border-color: #42bcbc;
+	background-color: #eefafa;
+	color: #178888;
+}
+
+.bid-history-status.sold {
+	border-color: #42bcbc;
+	background-color: #42bcbc;
+	color: #ffffff;
+}
+
+.bid-history-status.unsold {
+	border-color: #c8c8c8;
+	background-color: #f5f5f5;
+	color: #666666;
+}
+
+.bid-history-status.unknown {
+	border-color: #d2d2d2;
+	background-color: #f7f7f7;
+	color: #888888;
+}
+
+
+/* =========================
+   입찰 결과
+   ========================= */
+
+.bid-history-result-cell {
+	padding-right: 12px !important;
+	padding-left: 12px !important;
+}
+
+.bid-history-result-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	width: 100%;
+	min-width: 0;
+}
+
+.bid-history-result {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 82px;
+	height: 29px;
+	padding: 0 11px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	background-color: #ffffff;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.bid-history-result.leading {
+	border-color: #42bcbc;
+	background-color: #eefafa;
+	color: #178888;
+}
+
+.bid-history-result.outbid {
+	border-color: #d6b36a;
+	background-color: #fffaf0;
+	color: #9a711e;
+}
+
+.bid-history-result.won {
+	border-color: #e00000;
+	background-color: #e00000;
+	color: #ffffff;
+}
+
+.bid-history-result.lost {
+	border-color: #cccccc;
+	background-color: #f5f5f5;
+	color: #666666;
+}
+
+.bid-history-result.canceled {
+	border-color: #d7bebe;
+	background-color: #fff5f5;
+	color: #b64b4b;
+}
+
+.bid-history-result.unknown {
+	border-color: #d2d2d2;
+	background-color: #f7f7f7;
+	color: #888888;
+}
+
+.bid-history-result-reason {
+	display: block;
+	width: 100%;
+	max-width: 130px;
+	overflow: hidden;
+	color: #999999;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.4;
+	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+/* =========================
+   상세보기
+   ========================= */
+
+.bid-history-detail-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 68px;
+	height: 33px;
+	padding: 0 10px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	background-color: #ffffff;
+	color: #444444;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+	text-decoration: none;
+	transition:
+		border-color 0.15s ease,
+		color 0.15s ease,
+		background-color 0.15s ease;
+}
+
+.bid-history-detail-button:hover {
+	border-color: #42bcbc;
+	background-color: #f5ffff;
+	color: #178888;
+}
+
+
+/* =========================
+   긴 문자열 방지
+   ========================= */
+
+.bid-history-table td,
+.bid-history-table th {
+	overflow-wrap: break-word;
+}
+
+.bid-history-product-title,
+.bid-history-result-reason {
+	max-width: 100%;
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="memberIdCheck">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>rollback</transaction-type>
+		
+		<sql id="memberIdCheck">
+			
+			<query>
+				SELECT
+					COUNT(*) AS M_ID_COUNT
+				FROM (
+					SELECT M_ID FROM KYH_AF_MEMBER
+					
+					UNION ALL
+					
+					SELECT 'admin' AS M_ID
+				) AS TEMP_TABLE
+				WHERE
+					M_ID = ?
+			</query>
+			
+			<mapping>
+				<setProperty>M_ID</setProperty>
+				<getProperty>M_ID_COUNT</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="M_ID" type="string" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+			<field name="M_ID_COUNT" type="int" />
+		</block>
+	</output>
+</transaction>

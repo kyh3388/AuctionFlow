@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="adminMemberBidList">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="adminMemberBidList">
+
+			<query>
+					SELECT
+					B.BID_NO,
+					B.A_NO,
+					A.A_TITLE,
+					B.BID_PRICE,
+					CASE
+						WHEN A.A_STATUS = 'SOLD'
+							AND A.HIGHEST_BIDDER_M_NO = B.M_NO
+							AND A.A_CURRENT_PRICE = B.BID_PRICE
+						THEN 'Y'
+						ELSE 'N'
+					END AS IS_WINNER,
+					A.A_STATUS,
+					A.A_CURRENT_PRICE,
+					DATE_FORMAT(
+						B.BID_DATETIME,
+						'%Y-%m-%d %H:%i:%s'
+					) AS BID_DATETIME
+				FROM
+					KYH_AF_AUCTION_BID B
+				INNER JOIN
+					KYH_AF_AUCTION A
+				ON
+					A.A_NO = B.A_NO
+				WHERE
+					B.M_NO = ?
+				ORDER BY
+					B.BID_DATETIME DESC,
+					B.BID_NO DESC
+			</query>
+
+			<mapping>
+				<setProperty>M_NO</setProperty>
+				<getProperty>BID_NO,A_NO,A_TITLE,BID_PRICE,IS_WINNER,A_STATUS,A_CURRENT_PRICE,BID_DATETIME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="BID_NO" type="long" />
+			<field name="A_NO" type="long" />
+			<field name="A_TITLE" type="string" />
+			<field name="BID_PRICE" type="long" />
+			<field name="IS_WINNER" type="string" />
+			<field name="A_STATUS" type="string" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="BID_DATETIME" type="string" />
+		</block>
+	</output>
+</transaction>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="adminMemberDetail">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="adminMemberDetail">
+
+			<query>
+				SELECT
+					M_NO,
+					M_ID,
+					M_NAME,
+					M_PHONE_NUMBER,
+					M_EMAIL,
+					M_ADDRESS,
+					DATE_FORMAT(CREATED_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATED_DATETIME,
+					DATE_FORMAT(UPDATED_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATED_DATETIME
+				FROM
+					KYH_AF_MEMBER
+				WHERE
+					M_NO = ?
+			</query>
+
+			<mapping>
+				<setProperty>M_NO</setProperty>
+				<getProperty>M_NO,M_ID,M_NAME,M_PHONE_NUMBER,M_EMAIL,M_ADDRESS,CREATED_DATETIME,UPDATED_DATETIME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+			<field name="M_ID" type="string" />
+			<field name="M_NAME" type="string" />
+			<field name="M_PHONE_NUMBER" type="string" />
+			<field name="M_EMAIL" type="string" />
+			<field name="M_ADDRESS" type="string" />
+			<field name="CREATED_DATETIME" type="string" />
+			<field name="UPDATED_DATETIME" type="string" />
+		</block>
+	</output>
+</transaction>

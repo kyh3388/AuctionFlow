@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="calendarList">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="selectCalendarList">
+
+			<query>
+				SELECT
+					A.A_NO,
+					A.A_TITLE,
+					A.A_CURRENT_PRICE,
+					A.A_BID_COUNT,
+					A.A_STATUS,
+					DATE_FORMAT(A.A_END_DATETIME, '%Y-%m-%d') AS A_END_DATE,
+					DATE_FORMAT(A.A_END_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_END_DATETIME,
+					I.IMG_STORED_NAME
+				FROM
+					KYH_AF_AUCTION A
+				LEFT JOIN (
+					SELECT
+						A_NO,
+						MIN(IMG_STORED_NAME) AS IMG_STORED_NAME
+					FROM
+						KYH_AF_AUCTION_IMG
+					WHERE
+						IMG_TYPE = 'MAIN'
+					GROUP BY
+						A_NO
+				) I
+				ON
+					I.A_NO = A.A_NO
+				WHERE
+					A.A_STATUS = 'ONGOING'
+				AND
+					A.A_END_DATETIME &gt; NOW()
+				AND
+					A.A_END_DATETIME &gt;= ?
+				AND
+					A.A_END_DATETIME &lt; ?
+				ORDER BY
+					A.A_END_DATETIME ASC,
+					A.A_NO ASC
+			</query>
+
+			<mapping>
+				<setProperty>CALENDAR_START_DATETIME,CALENDAR_END_DATETIME</setProperty>
+				<getProperty>A_NO,A_TITLE,A_CURRENT_PRICE,A_BID_COUNT,A_STATUS,A_END_DATE,A_END_DATETIME,IMG_STORED_NAME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="CALENDAR_START_DATETIME" type="string" />
+			<field name="CALENDAR_END_DATETIME" type="string" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="0">
+			<field name="A_NO" type="long" />
+			<field name="A_TITLE" type="string" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="A_BID_COUNT" type="long" />
+			<field name="A_STATUS" type="string" />
+			<field name="A_END_DATE" type="string" />
+			<field name="A_END_DATETIME" type="string" />
+			<field name="IMG_STORED_NAME" type="string" />
+		</block>
+	</output>
+</transaction>

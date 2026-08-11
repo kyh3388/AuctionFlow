@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="purchaseComplete">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>commit</transaction-type>
+
+		<sql id="updatePurchaseComplete">
+
+			<query>
+				UPDATE
+					KYH_AF_AUCTION
+				SET
+					A_PURCHASED_DATETIME = NOW(),
+					UPDATED_DATETIME = NOW()
+				WHERE
+					A_NO = ?
+					AND HIGHEST_BIDDER_M_NO = ?
+					AND A_STATUS = 'SOLD'
+					AND A_PURCHASED_DATETIME IS NULL
+			</query>
+
+			<mapping>
+				<setProperty>A_NO,HIGHEST_BIDDER_M_NO</setProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+			<field name="HIGHEST_BIDDER_M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+		</block>
+	</output>
+</transaction>

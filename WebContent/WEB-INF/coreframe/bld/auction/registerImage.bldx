@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionRegisterImage">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>commit</transaction-type>
+		
+		<sql id="auctionRegisterImage">
+			
+			<query>
+				INSERT INTO KYH_AF_AUCTION_IMG (
+					A_NO,
+					IMG_TYPE,
+					IMG_ORIGINAL_NAME,
+					IMG_STORED_NAME
+				) VALUES (
+					:A_NO,
+					:IMG_TYPE,
+					:IMG_ORIGINAL_NAME,
+					:IMG_STORED_NAME
+				)
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+			<field name="IMG_TYPE" type="string" />
+			<field name="IMG_ORIGINAL_NAME" type="string" />
+			<field name="IMG_STORED_NAME" type="string" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+		</block>
+	</output>
+</transaction>

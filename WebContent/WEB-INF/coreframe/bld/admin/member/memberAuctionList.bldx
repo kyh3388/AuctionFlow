@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="adminMemberAuctionList">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="adminMemberAuctionList">
+
+			<query>
+				SELECT
+					A_NO,
+					A_CATEGORY,
+					A_TITLE,
+					A_START_PRICE,
+					A_CURRENT_PRICE,
+					A_BID_COUNT,
+					A_STATUS,
+					DATE_FORMAT(A_END_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_END_DATETIME,
+					DATE_FORMAT(A_CLOSED_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_CLOSED_DATETIME,
+					DATE_FORMAT(CREATED_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATED_DATETIME
+				FROM
+					KYH_AF_AUCTION
+
+				WHERE
+					M_NO = ?
+
+				ORDER BY
+					CREATED_DATETIME DESC,
+					A_NO DESC
+			</query>
+
+			<mapping>
+				<setProperty>M_NO</setProperty>
+				<getProperty>A_NO,A_CATEGORY,A_TITLE,A_START_PRICE,A_CURRENT_PRICE,A_BID_COUNT,A_STATUS,A_END_DATETIME,A_CLOSED_DATETIME,CREATED_DATETIME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+			<field name="A_CATEGORY" type="string" />
+			<field name="A_TITLE" type="string" />
+			<field name="A_START_PRICE" type="long" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="A_BID_COUNT" type="long" />
+			<field name="A_STATUS" type="string" />
+			<field name="A_END_DATETIME" type="string" />
+			<field name="A_CLOSED_DATETIME" type="string" />
+			<field name="CREATED_DATETIME" type="string" />
+		</block>
+	</output>
+</transaction>

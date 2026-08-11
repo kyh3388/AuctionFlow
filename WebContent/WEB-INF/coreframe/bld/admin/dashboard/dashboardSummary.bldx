@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="dashboardSummary">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>rollback</transaction-type>
+		
+		<sql id="selectDashboardSummary">
+
+			<query>
+				SELECT
+					COALESCE(SUM(A_CURRENT_PRICE), 0) AS TOTAL_SOLD_AMOUNT,
+					COALESCE(SUM(FLOOR(A_CURRENT_PRICE * 0.1)), 0) AS TOTAL_FEE_AMOUNT,
+					COALESCE(SUM(CASE
+									WHEN A_PURCHASED_DATETIME IS NULL THEN FLOOR(A_CURRENT_PRICE * 0.1)
+									ELSE 0
+								END), 0) AS UNPAID_FEE_AMOUNT,
+					COALESCE(SUM(CASE
+									WHEN A_PURCHASED_DATETIME IS NULL THEN 1
+									ELSE 0
+								END), 0) AS UNPAID_COUNT
+				FROM
+					KYH_AF_AUCTION
+				WHERE
+					A_STATUS = 'SOLD'
+			</query>
+
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>TOTAL_SOLD_AMOUNT,TOTAL_FEE_AMOUNT,UNPAID_FEE_AMOUNT,UNPAID_COUNT</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="TOTAL_SOLD_AMOUNT" type="long" />
+			<field name="TOTAL_FEE_AMOUNT" type="long" />
+			<field name="UNPAID_FEE_AMOUNT" type="long" />
+			<field name="UNPAID_COUNT" type="long" />
+		</block>
+	</output>
+</transaction>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionRegister">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>commit</transaction-type>
+		
+		<sql id="auctionRegister">
+			
+			<query>
+				INSERT INTO KYH_AF_AUCTION (
+					M_NO,
+					A_CATEGORY,
+					A_TITLE,
+					A_CONTENT,
+					A_START_PRICE,
+					A_CURRENT_PRICE,
+					A_STATUS,
+					A_END_DATETIME
+				) VALUES (
+					:M_NO,
+					:A_CATEGORY,
+					:A_TITLE,
+					:A_CONTENT,
+					:A_START_PRICE,
+					:A_CURRENT_PRICE,
+					:A_STATUS,
+					:A_END_DATETIME	
+				)
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+		
+		<sql id="selectAuctionNo">
+		
+			<query>
+				SELECT LAST_INSERT_ID() AS A_NO
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>A_NO</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+			<field name="A_CATEGORY" type="string" />
+			<field name="A_TITLE" type="string" />
+			<field name="A_CONTENT" type="string" />
+			<field name="A_START_PRICE" type="long" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="A_STATUS" type="string" />
+			<field name="A_END_DATETIME" type="string" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+			<field name="A_NO" type="long"/>
+		</block>
+	</output>
+</transaction>

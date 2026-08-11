@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionSearch">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>rollback</transaction-type>
+		
+		<sql id="auctionSearch">
+			
+			<query>
+				SELECT
+					A.A_NO,
+					A.A_TITLE,
+					A.A_CURRENT_PRICE,
+					A.A_STATUS,
+					DATE_FORMAT(A.A_END_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_END_DATETIME,
+					I.IMG_STORED_NAME
+				FROM
+					KYH_AF_AUCTION A
+				LEFT JOIN (
+					SELECT
+						A_NO,
+						MIN(IMG_STORED_NAME) AS IMG_STORED_NAME
+					FROM
+						KYH_AF_AUCTION_IMG
+					WHERE
+						IMG_TYPE = 'MAIN'
+					GROUP BY
+						A_NO) I
+				ON
+					A.A_NO = I.A_NO
+				WHERE
+					A.A_TITLE LIKE ?
+				ORDER BY
+					
+					CASE
+						WHEN ? = 'LATEST' THEN A.CREATED_DATETIME
+						ELSE NULL
+					END DESC,
+					
+					CASE
+						WHEN ? = 'OLDEST' THEN A.CREATED_DATETIME
+						ELSE NULL
+					END ASC,
+					
+					CASE
+						WHEN ? = 'PRICE_HIGH' THEN A.A_START_PRICE
+						ELSE NULL
+					END DESC,
+					
+					CASE
+						WHEN ? = 'PRICE_LOW' THEN A.A_START_PRICE
+						ELSE NULL
+					END ASC,
+					
+					A.CREATED_DATETIME DESC,
+					A.A_NO DESC
+			</query>
+			
+			<mapping>
+				<setProperty>KEYWORD,SORT_LATEST,SORT_OLDEST,SORT_PRICE_HIGH,SORT_PRICE_LOW</setProperty>
+				<getProperty>A_NO,A_TITLE,A_CURRENT_PRICE,A_STATUS,A_END_DATETIME,IMG_STORED_NAME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="KEYWORD" type="string" />
+			<field name="SORT_LATEST" type="string" />
+			<field name="SORT_OLDEST" type="string" />
+			<field name="SORT_PRICE_HIGH" type="string" />
+			<field name="SORT_PRICE_LOW" type="string" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+			<field name="A_NO" type="long" />
+			<field name="A_TITLE" type="string" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="A_STATUS" type="string" />
+			<field name="A_END_DATETIME" type="string" />
+			<field name="IMG_STORED_NAME" type="string" />
+		</block>
+	</output>
+</transaction>

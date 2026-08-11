@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="adminAuctionCancel">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<!-- 경매 취소 처리 -->
+		<sql id="updateAuction">
+
+			<query>
+				UPDATE
+					KYH_AF_AUCTION
+
+				SET
+					A_STATUS = ?,
+					A_CLOSED_DATETIME = NOW(),
+					A_ADMIN_REASON = ?,
+					UPDATED_DATETIME = NOW()
+
+				WHERE
+					A_NO = ?
+
+				AND
+					A_STATUS = ?
+
+				AND
+					A_END_DATETIME &gt; NOW()
+			</query>
+
+			<mapping>
+				<setProperty>
+					A_STATUS_UPDATE,
+					A_ADMIN_REASON_UPDATE,
+					A_NO_UPDATE,
+					A_STATUS_CURRENT_CHECK
+				</setProperty>
+
+				<getProperty></getProperty>
+			</mapping>
+
+		</sql>
+
+		<!-- 최종 처리 결과 조회 -->
+		<sql id="selectActionResult">
+
+			<query>
+				SELECT
+					A_STATUS AS RESULT_STATUS,
+
+					COALESCE(A_ADMIN_REASON, '') AS RESULT_REASON,
+
+					CASE
+						WHEN A_CLOSED_DATETIME IS NOT NULL THEN 1
+						ELSE 0
+					END AS IS_CLOSED
+
+				FROM
+					KYH_AF_AUCTION
+
+				WHERE
+					A_NO = ?
+			</query>
+
+			<mapping>
+				<setProperty>A_NO_UPDATE</setProperty>
+				<getProperty>RESULT_STATUS,RESULT_REASON,IS_CLOSED</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="A_STATUS_UPDATE" type="string" />
+			<field name="A_ADMIN_REASON_UPDATE" type="string" />
+			<field name="A_NO_UPDATE" type="long" />
+			<field name="A_STATUS_CURRENT_CHECK" type="string" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="RESULT_STATUS" type="string" />
+			<field name="RESULT_REASON" type="string" />
+			<field name="IS_CLOSED" type="long" />
+		</block>
+	</output>
+</transaction>

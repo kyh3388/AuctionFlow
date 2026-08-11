@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="adminMemberList">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="adminMemberList">
+
+			<query>
+				SELECT
+					M.M_NO,
+					M.M_ID,
+					M.M_NAME,
+					M.M_PHONE_NUMBER,
+					M.M_EMAIL,
+					COALESCE(RA.REGISTER_AUCTION_COUNT, 0) AS REGISTER_AUCTION_COUNT,
+					COALESCE(BC.BID_COUNT, 0) AS BID_COUNT,
+					COALESCE(WC.WIN_COUNT, 0) AS WIN_COUNT,
+
+					DATE_FORMAT(M.CREATED_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATED_DATETIME
+				FROM
+					KYH_AF_MEMBER M
+
+				LEFT JOIN (
+					SELECT
+						M_NO,
+						COUNT(*) AS REGISTER_AUCTION_COUNT
+					FROM
+						KYH_AF_AUCTION
+					GROUP BY
+						M_NO) RA
+				ON
+					RA.M_NO = M.M_NO
+
+				LEFT JOIN (
+					SELECT
+						M_NO, COUNT(*) AS BID_COUNT
+					FROM
+						KYH_AF_AUCTION_BID
+					GROUP BY
+						M_NO) BC
+				ON
+					BC.M_NO = M.M_NO
+
+				LEFT JOIN (
+					SELECT
+						HIGHEST_BIDDER_M_NO AS M_NO,
+						COUNT(*) AS WIN_COUNT
+					FROM
+						KYH_AF_AUCTION
+					WHERE
+						A_STATUS = 'SOLD'
+					AND
+						HIGHEST_BIDDER_M_NO IS NOT NULL
+					GROUP BY
+						HIGHEST_BIDDER_M_NO) WC
+				ON
+					WC.M_NO = M.M_NO
+				ORDER BY
+					M.CREATED_DATETIME DESC,
+					M.M_NO DESC
+			</query>
+
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>M_NO,M_ID,M_NAME,M_PHONE_NUMBER,M_EMAIL,REGISTER_AUCTION_COUNT,BID_COUNT,WIN_COUNT,CREATED_DATETIME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+			<field name="M_ID" type="string" />
+			<field name="M_NAME" type="string" />
+			<field name="M_PHONE_NUMBER" type="string" />
+			<field name="M_EMAIL" type="string" />
+			<field name="REGISTER_AUCTION_COUNT" type="long" />
+			<field name="BID_COUNT" type="long" />
+			<field name="WIN_COUNT" type="long" />
+			<field name="CREATED_DATETIME" type="string" />
+		</block>
+	</output>
+</transaction>

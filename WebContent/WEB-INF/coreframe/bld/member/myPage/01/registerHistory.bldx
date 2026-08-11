@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="registerAuctionHistory">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="selectRegisterAuctionHistory">
+
+			<query>
+				SELECT
+					A.A_NO,
+					A.M_NO,
+					A.A_TITLE,
+					A.A_START_PRICE,
+					A.A_CURRENT_PRICE,
+					A.A_BID_COUNT,
+					A.A_STATUS,
+					A.A_ADMIN_REASON,
+					
+					DATE_FORMAT(A.CREATED_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATED_DATETIME,
+					DATE_FORMAT(A.A_END_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_END_DATETIME,
+					DATE_FORMAT(A.A_CLOSED_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_CLOSED_DATETIME,
+					I.IMG_STORED_NAME
+				FROM
+					KYH_AF_AUCTION A
+				LEFT JOIN (
+					SELECT
+						A_NO,
+						MAX(IMG_STORED_NAME) AS IMG_STORED_NAME
+					FROM
+						KYH_AF_AUCTION_IMG
+					WHERE
+						IMG_TYPE = 'MAIN'
+					GROUP BY
+						A_NO
+				) I
+				ON
+					I.A_NO = A.A_NO
+				WHERE
+					A.M_NO = ?
+				ORDER BY
+					A.CREATED_DATETIME DESC,
+					A.A_NO DESC
+			</query>
+
+			<mapping>
+				<setProperty>M_NO</setProperty>
+				<getProperty>A_NO,M_NO,A_TITLE,A_START_PRICE,A_CURRENT_PRICE,A_BID_COUNT,A_STATUS,A_ADMIN_REASON,CREATED_DATETIME,A_END_DATETIME,A_CLOSED_DATETIME,IMG_STORED_NAME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="0">
+			<field name="A_NO" type="long" />
+			<field name="M_NO" type="long" />
+			<field name="A_TITLE" type="string" />
+			<field name="A_START_PRICE" type="long" />
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="A_BID_COUNT" type="long" />
+			<field name="A_STATUS" type="string" />
+			<field name="A_ADMIN_REASON" type="string" />
+			<field name="CREATED_DATETIME" type="string" />
+			<field name="A_END_DATETIME" type="string" />
+			<field name="A_CLOSED_DATETIME" type="string" />
+			<field name="IMG_STORED_NAME" type="string" />
+		</block>
+	</output>
+</transaction>

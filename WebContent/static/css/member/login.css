@@ -1,0 +1,335 @@
+@charset "UTF-8";
+
+/* =========================
+   COMMON RESET
+   ========================= */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scrollbar-gutter: stable;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #ffffff;
+	color: #111111;
+	font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+	font-family: inherit;
+}
+
+.blind {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+.login-page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.login-page .header,
+.login-page .footer {
+	flex-shrink: 0;
+}
+
+/* =========================
+   BASIC
+   ========================= */
+
+.login-page {
+	margin: 0;
+	background-color: #ffffff;
+	color: #222222;
+	font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+}
+
+.login-page * {
+	box-sizing: border-box;
+}
+
+.login-page a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.login-page .blind {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* =========================
+   MAIN LOGIN
+   ========================= */
+
+.login-page .main {
+	flex: 1;
+	min-height: 0;
+	padding: 90px 0 120px;
+	background-color: #ffffff;
+}
+
+.login-page .login {
+	width: 100%;
+}
+
+.login-page .login-inner {
+	width: 420px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.login-page .login-inner h1 {
+	margin: 0 0 34px;
+	font-size: 34px;
+	font-weight: 700;
+	color: #111111;
+}
+
+.login-page .login-form {
+	width: 100%;
+}
+
+.login-page .form-row {
+	margin-bottom: 10px;
+}
+
+.login-page .input {
+	width: 100%;
+	height: 52px;
+	padding: 0 16px;
+	border: 1px solid #d5d5d5;
+	background-color: #ffffff;
+	font-size: 15px;
+	color: #222222;
+	outline: none;
+}
+
+.login-page .input:focus {
+	border-color: #4fc3c5;
+}
+
+.login-page .save-id {
+	margin: 14px 0 22px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	text-align: left;
+}
+
+.login-page .check {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+}
+
+.login-page .check-label {
+	font-size: 14px;
+	color: #555555;
+	cursor: pointer;
+}
+
+.login-page .login-message {
+	margin: 0 0 14px;
+	font-size: 14px;
+	color: #d93025;
+	text-align: left;
+}
+
+.login-page .btn-login {
+	width: 100%;
+	height: 54px;
+	border: 0;
+	background-color: #55c8c8;
+	color: #ffffff;
+	font-size: 17px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.login-page .btn-login:hover {
+	background-color: #43b8b8;
+}
+
+.login-page .login-menu {
+	margin-top: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 12px;
+}
+
+.login-page .login-link {
+	font-size: 14px;
+	color: #555555;
+}
+
+.login-page .login-link:hover {
+	text-decoration: underline;
+}
+
+.login-page .divider {
+	color: #cccccc;
+	font-size: 13px;
+}
+
+/* =========================
+   LOGIN PAGE
+   ========================= */
+
+.login-page .main {
+	min-height: 680px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 88px 0 110px;
+	background-color: #ffffff;
+}
+
+.login-page .login {
+	width: 100%;
+}
+
+.login-page .login-inner {
+	width: 480px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.login-page .login-inner h1 {
+	margin: 0 0 36px;
+	font-size: 34px;
+	font-weight: 800;
+	letter-spacing: -0.05em;
+	color: #000000;
+}
+
+.login-page .login-form {
+	width: 100%;
+}
+
+.login-page .form-row {
+	margin-bottom: 12px;
+}
+
+.login-page .input {
+	width: 100%;
+	height: 54px;
+	padding: 0 16px;
+	border: 1px solid #cfcfcf;
+	background-color: #ffffff;
+	font-size: 16px;
+	color: #222222;
+	outline: none;
+}
+
+.login-page .input:focus {
+	border-color: #55c8c8;
+	box-shadow: 0 0 0 1px #55c8c8;
+}
+
+.login-page .input::placeholder {
+	color: #aaaaaa;
+}
+
+.login-page .save-id {
+	margin: 16px 0 28px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	text-align: left;
+}
+
+.login-page .check {
+	width: 17px;
+	height: 17px;
+	margin: 0;
+	accent-color: #55c8c8;
+}
+
+.login-page .check-label {
+	font-size: 15px;
+	color: #333333;
+	cursor: pointer;
+}
+
+.login-page .login-message {
+	margin: -10px 0 18px;
+	text-align: left;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #d93025;
+}
+
+.login-page .btn-login {
+	width: 100%;
+	height: 54px;
+	border: 1px solid #48baba;
+	border-radius: 3px;
+	background-color: #5ccaca;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.login-page .btn-login:hover {
+	background-color: #48baba;
+}
+
+.login-page .login-menu {
+	margin-top: 26px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 13px;
+}
+
+.login-page .login-link {
+	font-size: 15px;
+	color: #222222;
+}
+
+.login-page .login-link:hover {
+	text-decoration: underline;
+}
+
+.login-page .divider {
+	color: #cfcfcf;
+	font-size: 13px;
+}

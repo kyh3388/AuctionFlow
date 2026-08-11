@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="memberRegister">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<transaction-type>commit</transaction-type>
+		
+		<sql id="memberRegister">
+			
+			<query>
+				INSERT INTO KYH_AF_MEMBER (
+					M_ID,
+					M_PW,
+					M_NAME,
+					M_PHONE_NUMBER,
+					M_EMAIL,
+					M_ADDRESS
+				) VALUES (
+					?, ?, ?, ?, ?, ?
+				)
+			</query>
+			
+			<mapping>
+				<setProperty>M_ID,M_PW,M_NAME,M_PHONE_NUMBER,M_EMAIL,M_ADDRESS</setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>	
+		<block repeat="1">
+			<field name="M_ID" type="string" />
+			<field name="M_PW" type="string" />
+			<field name="M_NAME" type="string" />
+			<field name="M_PHONE_NUMBER" type="string" />
+			<field name="M_EMAIL" type="string" />
+			<field name="M_ADDRESS" type="string" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+		</block>
+	</output>
+</transaction>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="myPageMemberSummary">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="selectMyPageMemberSummary">
+
+			<query>
+				SELECT
+					M_NO,
+					M_NAME
+				FROM
+					KYH_AF_MEMBER
+				WHERE
+					M_NO = ?
+			</query>
+
+			<mapping>
+				<setProperty>M_NO</setProperty>
+
+				<getProperty>M_NO,M_NAME</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="M_NO" type="long" />
+			<field name="M_NAME" type="string" />
+		</block>
+	</output>
+</transaction>

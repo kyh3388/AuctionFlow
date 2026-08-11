@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionRegisterGraph">
+
+	<processor-info type="dbms" datasource="auctionDB">
+
+		<transaction-type>rollback</transaction-type>
+
+		<sql id="selectAuctionRegisterGraph">
+			
+			<!-- 경매 등록 막대그래프 -->
+			<query>
+				WITH RECURSIVE DATE_LIST AS (
+					SELECT CURDATE() - INTERVAL 6 DAY AS REGISTER_DATE <!-- 현재 날짜 - 6일 -->
+						
+					UNION ALL
+					
+					SELECT
+						REGISTER_DATE + INTERVAL 1 DAY
+					FROM
+						DATE_LIST
+					WHERE
+						REGISTER_DATE &lt; CURDATE()
+				)
+				SELECT
+					DATE_FORMAT(D.REGISTER_DATE, '%m/%d') AS REGISTER_DATE,
+					COUNT(A.A_NO) AS REGISTER_COUNT
+				FROM
+					DATE_LIST D
+				LEFT JOIN
+					KYH_AF_AUCTION A
+				ON
+					A.CREATED_DATETIME &gt;= D.REGISTER_DATE
+				AND
+					A.CREATED_DATETIME &lt; D.REGISTER_DATE + INTERVAL 1 DAY
+				GROUP BY
+					D.REGISTER_DATE
+				ORDER BY
+					D.REGISTER_DATE ASC
+			</query>
+
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty>REGISTER_DATE,REGISTER_COUNT</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+
+	<input>
+		<block repeat="1">
+		</block>
+	</input>
+
+	<output>
+		<block repeat="1">
+			<field name="REGISTER_DATE" type="string" />
+			<field name="REGISTER_COUNT" type="long" />
+		</block>
+	</output>
+</transaction>

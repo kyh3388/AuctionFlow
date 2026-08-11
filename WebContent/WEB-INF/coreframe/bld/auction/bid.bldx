@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<transaction name="auctionBid">
+
+	<processor-info type="dbms" datasource="auctionDB">
+	
+		<!--
+			중요:
+			transaction-type=rollback은 이 BLD의 모든 SQL을 동일 커넥션과
+			하나의 트랜잭션으로 묶는다. 정상 종료 시 커밋하고,
+			중간 SQL 오류가 발생하면 전체를 롤백한다.
+			따라서 SELECT ... FOR UPDATE의 행 잠금이 UPDATE와 INSERT가
+			끝날 때까지 유지된다.
+		-->
+		<transaction-type>rollback</transaction-type>
+		
+		<!-- 요청마다 커넥션 로컬 처리 건수를 반드시 초기화한다. -->
+		<sql id="initializeBidResultCount">
+			<query>
+				SET
+					@AF_BID_UPDATED_COUNT = 0,
+					@AF_BID_INSERTED_COUNT = 0
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+		
+		<!--
+			경매 행을 잠그고 최종 거절 판단에 필요한 최신 데이터를 읽는다.
+			동시에 들어온 후속 요청은 선행 요청의 COMMIT까지 여기서 대기한 뒤,
+			변경된 최신 현재가와 입찰 수를 읽는다.
+		-->
+		<sql id="lockAuction">
+			<query>
+				SELECT
+					A.A_NO,
+					A.M_NO AS SELLER_M_NO,
+					A.A_STATUS,
+					A.A_BID_COUNT AS BEFORE_BID_COUNT,
+					CASE
+						WHEN A.A_END_DATETIME &lt;= NOW() THEN 1
+						ELSE 0
+					END AS IS_ENDED,
+					CASE
+						WHEN A.A_BID_COUNT = 0 THEN A.A_START_PRICE
+						ELSE A.A_CURRENT_PRICE + GREATEST(A.A_START_PRICE DIV 10, 50000)
+					END AS EXPECTED_BID_PRICE,
+					(
+						SELECT
+							COUNT(*)
+						FROM
+							KYH_AF_AUCTION_BID B
+						WHERE
+							B.BID_REQUEST_ID = ?
+					) AS DUPLICATE_REQUEST_COUNT
+				FROM
+					KYH_AF_AUCTION A
+				WHERE
+					A.A_NO = ?
+				FOR UPDATE
+			</query>
+			
+			<mapping>
+				<setProperty>BID_REQUEST_ID_LOCK,A_NO_LOCK</setProperty>
+				<getProperty>A_NO,SELLER_M_NO,A_STATUS,BEFORE_BID_COUNT,IS_ENDED,EXPECTED_BID_PRICE,DUPLICATE_REQUEST_COUNT</getProperty>
+			</mapping>
+		</sql>
+		
+		<!--
+			락 획득 후 최신 상태로 최종 조건을 다시 검사한다.
+			통과한 요청만 UPDATE 1건이 발생한다.
+		-->
+		<sql id="updateAuctionPrice">
+			<query>
+				UPDATE
+					KYH_AF_AUCTION
+				SET
+					A_CURRENT_PRICE = ?,
+					HIGHEST_BIDDER_M_NO = ?,
+					A_BID_COUNT = A_BID_COUNT + 1,
+					UPDATED_DATETIME = NOW()
+				WHERE
+					A_NO = ?
+				AND
+					M_NO &lt;&gt; ?
+				AND
+					A_STATUS = 'ONGOING'
+				AND
+					A_END_DATETIME &gt; NOW()
+				AND
+					CASE
+						WHEN A_BID_COUNT = 0 THEN A_START_PRICE
+						ELSE A_CURRENT_PRICE + GREATEST(A_START_PRICE DIV 10, 50000)
+					END = ?
+				AND NOT EXISTS (
+					SELECT
+						1
+					FROM
+						KYH_AF_AUCTION_BID B
+					WHERE
+						B.BID_REQUEST_ID = ?
+				)
+			</query>
+			
+			<mapping>
+				<setProperty>BID_PRICE_UPDATE,M_NO_UPDATE,A_NO_UPDATE,M_NO_OWNER_UPDATE,BID_PRICE_CHECK_UPDATE,BID_REQUEST_ID_CHECK_UPDATE</setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+		
+		<!-- 바로 앞 UPDATE의 반영 건수를 같은 커넥션의 사용자 변수에 보관한다. -->
+		<sql id="saveUpdatedCount">
+			<query>
+				SET @AF_BID_UPDATED_COUNT = ROW_COUNT()
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+		
+		<!--
+			UPDATE가 정확히 1건 성공한 요청만 입찰 이력을 등록한다.
+			후속 동시 요청은 UPDATE 0건이므로 INSERT가 실행되지 않는다.
+		-->
+		<sql id="insertAuctionBid">
+			<query>
+				INSERT INTO KYH_AF_AUCTION_BID (
+					A_NO,
+					M_NO,
+					BID_PRICE,
+					BID_REQUEST_ID,
+					BID_DATETIME
+				)
+				SELECT
+					?,
+					?,
+					?,
+					?,
+					NOW()
+				FROM
+					DUAL
+				WHERE
+					@AF_BID_UPDATED_COUNT = 1
+			</query>
+			
+			<mapping>
+				<setProperty>A_NO_INSERT,M_NO_INSERT,BID_PRICE_INSERT,BID_REQUEST_ID_INSERT</setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+		
+		<!-- 바로 앞 INSERT의 반영 건수를 보관한다. -->
+		<sql id="saveInsertedCount">
+			<query>
+				SET @AF_BID_INSERTED_COUNT = ROW_COUNT()
+			</query>
+			
+			<mapping>
+				<setProperty></setProperty>
+				<getProperty></getProperty>
+			</mapping>
+		</sql>
+		
+		<!-- 입찰 처리 결과와 실제 반영 건수를 한 번에 반환한다. -->
+		<sql id="selectBidResult">
+			<query>
+				SELECT
+					A.A_CURRENT_PRICE,
+					A.HIGHEST_BIDDER_M_NO,
+					M.M_ID AS HIGHEST_BIDDER_M_ID,
+					A.A_BID_COUNT,
+					@AF_BID_UPDATED_COUNT AS UPDATED_COUNT,
+					@AF_BID_INSERTED_COUNT AS INSERTED_COUNT
+				FROM
+					KYH_AF_AUCTION A
+				LEFT JOIN
+					KYH_AF_MEMBER M
+				ON
+					M.M_NO = A.HIGHEST_BIDDER_M_NO
+				WHERE
+					A.A_NO = ?
+			</query>
+			
+			<mapping>
+				<setProperty>A_NO_RESULT</setProperty>
+				<getProperty>A_CURRENT_PRICE,HIGHEST_BIDDER_M_NO,HIGHEST_BIDDER_M_ID,A_BID_COUNT,UPDATED_COUNT,INSERTED_COUNT</getProperty>
+			</mapping>
+		</sql>
+	</processor-info>
+	
+	<input>
+		<block repeat="1">
+			<field name="BID_REQUEST_ID_LOCK" type="string" />
+			<field name="A_NO_LOCK" type="long" />
+			
+			<field name="BID_PRICE_UPDATE" type="long" />
+			<field name="M_NO_UPDATE" type="long" />
+			<field name="A_NO_UPDATE" type="long" />
+			<field name="M_NO_OWNER_UPDATE" type="long" />
+			<field name="BID_PRICE_CHECK_UPDATE" type="long" />
+			<field name="BID_REQUEST_ID_CHECK_UPDATE" type="string" />
+			
+			<field name="A_NO_INSERT" type="long" />
+			<field name="M_NO_INSERT" type="long" />
+			<field name="BID_PRICE_INSERT" type="long" />
+			<field name="BID_REQUEST_ID_INSERT" type="string" />
+			
+			<field name="A_NO_RESULT" type="long" />
+		</block>
+	</input>
+	
+	<output>
+		<block repeat="1">
+			<!-- lockAuction 결과: 락 이후 최종 거절조건 판정용 -->
+			<field name="A_NO" type="long" />
+			<field name="SELLER_M_NO" type="long" />
+			<field name="A_STATUS" type="string" />
+			<field name="BEFORE_BID_COUNT" type="long" />
+			<field name="IS_ENDED" type="long" />
+			<field name="EXPECTED_BID_PRICE" type="long" />
+			<field name="DUPLICATE_REQUEST_COUNT" type="long" />
+			
+			<!-- 최종 반영 결과 -->
+			<field name="A_CURRENT_PRICE" type="long" />
+			<field name="HIGHEST_BIDDER_M_NO" type="long" />
+			<field name="HIGHEST_BIDDER_M_ID" type="string" />
+			<field name="A_BID_COUNT" type="long" />
+			<field name="UPDATED_COUNT" type="long" />
+			<field name="INSERTED_COUNT" type="long" />
+		</block>
+	</output>
+</transaction>

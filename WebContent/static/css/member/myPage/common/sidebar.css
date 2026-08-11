@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+
+/* =========================
+   RESET
+   ========================= */
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #ffffff;
+	color: #111111;
+	font-family:
+		"Malgun Gothic",
+		"맑은 고딕",
+		Arial,
+		sans-serif;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+	font-family: inherit;
+}
+
+
+/* =========================
+   PAGE
+   ========================= */
+
+.mypage-body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background-color: #ffffff;
+}
+
+.mypage-main {
+	flex: 1;
+	padding: 64px 0 110px;
+	background-color: #ffffff;
+}
+
+.mypage-layout {
+	display: grid;
+	grid-template-columns: 230px minmax(0, 1fr);
+	align-items: start;
+	gap: 66px;
+	width: min(1180px, calc(100% - 64px));
+	margin: 0 auto;
+}
+
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.mypage-sidebar {
+	min-width: 0;
+}
+
+.mypage-member-area {
+	padding-bottom: 28px;
+	border-bottom: 1px solid #dddddd;
+}
+
+.mypage-member-link {
+	display: block;
+}
+
+.mypage-member-name {
+	display: block;
+	overflow: hidden;
+	color: #111111;
+	font-size: 23px;
+	font-weight: 800;
+	line-height: 1.4;
+	letter-spacing: -0.04em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mypage-member-name span {
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.mypage-member-id {
+	display: block;
+	margin-top: 5px;
+	overflow: hidden;
+	color: #888888;
+	font-size: 12px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+/* =========================
+   SIDEBAR MENU
+   ========================= */
+
+.mypage-sidebar-navigation {
+	padding-top: 28px;
+}
+
+.mypage-menu-group + .mypage-menu-group {
+	margin-top: 36px;
+}
+
+.mypage-menu-group-title {
+	margin: 0 0 12px;
+	color: #222222;
+	font-size: 15px;
+	font-weight: 800;
+	line-height: 1.4;
+	letter-spacing: -0.025em;
+}
+
+.mypage-menu-link {
+	display: flex;
+	align-items: center;
+	min-height: 38px;
+	padding: 0 10px;
+	color: #777777;
+	font-size: 14px;
+	line-height: 1.4;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+}
+
+.mypage-menu-link:hover {
+	background-color: #f5fafa;
+	color: #333333;
+}
+
+.mypage-menu-link.active {
+	background-color: #eefafa;
+	color: #35a8a8;
+	font-weight: 800;
+}
+
+
+/* =========================
+   CONTENT
+   ========================= */
+
+.mypage-content {
+	min-width: 0;
+}
+
+.mypage-content-header {
+	padding-bottom: 25px;
+	border-bottom: 1px solid #999999;
+}
+
+.mypage-page-title {
+	margin: 0;
+	color: #111111;
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 1.3;
+	letter-spacing: -0.045em;
+}
+
+.mypage-page-description {
+	margin: 10px 0 0;
+	color: #888888;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+
+/* =========================
+   PLACEHOLDER
+   ========================= */
+
+.mypage-placeholder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 330px;
+	padding: 40px;
+	text-align: center;
+}
+
+.mypage-placeholder-title {
+	color: #333333;
+	font-size: 17px;
+	font-weight: 800;
+}
+
+.mypage-placeholder-text {
+	margin: 10px 0 0;
+	color: #888888;
+	font-size: 13px;
+	line-height: 1.7;
+}

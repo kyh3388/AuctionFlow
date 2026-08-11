@@ -1,0 +1,60 @@
+/* =========================
+   MY PAGE AUCTION REALTIME
+   ========================= */
+
+.mypage-body [data-realtime-current-price],
+.mypage-body [data-realtime-bid-count] {
+	font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================
+   BID COUNT ROLL
+   ========================= */
+
+.mypage-body .mypage-bid-count-rolling {
+	display: inline-block;
+	overflow: hidden;
+	line-height: inherit;
+	vertical-align: -0.12em;
+}
+
+.mypage-body .mypage-bid-count-roll-track {
+	display: flex;
+	flex-direction: column;
+	line-height: inherit;
+	will-change: transform;
+}
+
+.mypage-body .mypage-bid-count-roll-value {
+	display: block;
+	flex: 0 0 auto;
+	line-height: inherit;
+	white-space: nowrap;
+}
+
+
+/* =========================
+   BID HISTORY TOTAL BID COUNT
+   ========================= */
+
+.bid-history-page .bid-history-total-bid-count {
+	display: block;
+	margin-top: 5px;
+	color: #888888;
+	font-size: 10px;
+	font-weight: 500;
+	line-height: 1.4;
+	white-space: nowrap;
+}
+
+.bid-history-page
+.bid-history-total-bid-count
+[data-realtime-bid-count] {
+	display: inline-block;
+	margin: 0 1px 0 3px;
+	color: #555555;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: inherit;
+}

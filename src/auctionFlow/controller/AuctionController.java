@@ -17,7 +17,6 @@ import auctionFlow.exception.BidException;
 import auctionFlow.service.AuctionService;
 import auctionFlow.websocket.AuctionWebSocketManager;
 import coreframe.annotations.beans.Inject;
-import coreframe.annotations.beans.Property;
 import coreframe.annotations.http.Controller;
 import coreframe.annotations.http.UrlMapping;
 import coreframe.data.DataSet;
@@ -37,9 +36,6 @@ public class AuctionController {
     @Inject
     private AuctionService auctionService;
 
-    @Property("auction.image.path")
-    private String auctionImagePath;
-
     // running=true: 시연 중 / running=false: 쿨타임 중
     private static class BidDemoState {
         private String demoId;
@@ -58,7 +54,6 @@ public class AuctionController {
     // ============================================================
     // 1. 경매 등록
     // ============================================================
-
     @UrlMapping("/registerForm")
     public void auctionRegisterForm(RequestData data, ViewMeta view) {
         if (getLoginMemberNo(data) == null) {
@@ -191,7 +186,6 @@ public class AuctionController {
     // ============================================================
     // 2. 경매 목록 / 검색
     // ============================================================
-
     @UrlMapping("/pastList")
     public void pastList(RequestData data, ViewMeta view) {
         try {
@@ -249,7 +243,6 @@ public class AuctionController {
     // ============================================================
     // 3. 경매 상세
     // ============================================================
-
     @UrlMapping("/detail")
     public void auctionDetail(RequestData data, ViewMeta view) {
         try {
@@ -298,7 +291,6 @@ public class AuctionController {
     // ============================================================
     // 4. 상세 실시간 조회
     // ============================================================
-
     @UrlMapping(value = "/realtime", method = "GET")
     public void auctionRealtime(RequestData data, ViewMeta view, HttpServletResponse response) {
         view.disable();
@@ -768,11 +760,7 @@ public class AuctionController {
             }
 
             // 2. 실제 이미지 경로 생성
-            if (auctionImagePath == null || auctionImagePath.isBlank()) {
-                throw new IllegalStateException("auction.image.path 설정이 없습니다.");
-            }
-
-            Path imageDirectory = Path.of(auctionImagePath.trim()).toAbsolutePath().normalize();
+            Path imageDirectory = Path.of(System.getProperty("catalina.base"), "data", "auctionFlow", "storedImage").toAbsolutePath().normalize();
             Path imagePath = imageDirectory.resolve(storedFileName).normalize();
 
             // 상위 디렉터리로 빠져나가는 경로 접근 방지

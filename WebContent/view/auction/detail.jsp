@@ -259,7 +259,6 @@
 						</div>
 
 						<div class="detail-price-row current">
-
 							<%
 								if (isOngoing) {
 							%>
@@ -308,17 +307,14 @@
 							if (isOngoing) {
 						%>
 							입찰하기
-
 						<%
 							} else if (isSold) {
 						%>
 							낙찰된 경매
-
 						<%
 							} else if (isUnsold) {
 						%>
 							미낙찰 경매
-
 						<%
 							} else if (isCanceled) {
 						%>
@@ -916,7 +912,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const AUCTION_WS_RECONNECT_DELAY_MS = 2500;
     
     //WebSocket 이벤트가 누락되거나 HTTP 요청과 겹쳐도 화면이 반드시 DB 최신값을 따라가도록 짧은 주기로 보정한다.
-    const REALTIME_SYNC_INTERVAL_MS = 500;
+    const REALTIME_SYNC_INTERVAL_MS = 500; //Polling 사용
+    
     const AUCTION_START_PRICE = <%= auctionStartPrice %>;
     const AUCTION_BID_UNIT = <%= bidUnit %>;
     let appliedBidCount = <%= auctionBidCount %>;
@@ -1631,9 +1628,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let bidDemoCooldownEndsAt = 0;
     let bidDemoCooldownIntervalId = null;
     let bidDemoRunningTimeoutId = null;
-    const BID_FLOW_SPAWN_INTERVAL_MS = 24;
-    const BID_FLOW_FIRST_MOVE_MS = 480;
-    const BID_FLOW_SECOND_MOVE_MS = 500;
+    const BID_FLOW_SPAWN_INTERVAL_MS = 5;
+    const BID_FLOW_FIRST_MOVE_MS = 240;
+    const BID_FLOW_SECOND_MOVE_MS = 250;
     const BID_FLOW_LOCK_HOLD_MS = 180;
     
     function waitForBidFlowAnimation(milliseconds) {

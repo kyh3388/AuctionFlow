@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import auctionFlow.exception.BidException;
 import coreframe.annotations.beans.Bean;
-import coreframe.annotations.beans.Property;
 import coreframe.data.DataSet;
 import coreframe.data.Interaction;
 import coreframe.data.InteractionFactory;
@@ -17,10 +16,6 @@ import coreframe.http.MultipartFile;
 
 @Bean
 public class AuctionService {
-	
-	//이미지 저장 경로(config에서 설정)
-	@Property("auction.image.path")
-	private String auctionImagePath;
 	
 	//1. 경매 상품 등록
 	public long auctionRegister(long memberNo, String auctionCategory, String auctionTitle, String auctionContent, long auctionStartPrice, String auctionEndDatetime, MultipartFile mainImage, List<MultipartFile> subImages) throws Exception {
@@ -410,18 +405,16 @@ public class AuctionService {
 	//10. 경매 이미지 저장 폴더 준비
 	private File getAuctionImageStoreDirectory() throws Exception {
 
-		if (auctionImagePath == null || auctionImagePath.isBlank()) {
-			throw new IllegalStateException("auction.image.path 설정이 없습니다.");
-		}
+	    Path imageDirectory = Path.of(System.getProperty("catalina.base"), "data", "auctionFlow",  "storedImage").toAbsolutePath().normalize();
 
-		Path imageDirectory = Path.of(auctionImagePath.trim()).toAbsolutePath().normalize();
+	    //폴더가 없으면 중간 경로까지 자동 생성
+	    Files.createDirectories(imageDirectory);
+	    
+	    System.out.println("이미지 저장 경로: " + imageDirectory);
 
-		//폴더가 없으면 중간 경로까지 자동 생성
-		Files.createDirectories(imageDirectory);
-
-		if (!Files.isWritable(imageDirectory)) {
-			throw new IllegalStateException("이미지 저장 폴더에 쓰기 권한이 없습니다: " + imageDirectory);
-		}
-		return imageDirectory.toFile();
+	    if (!Files.isWritable(imageDirectory)) {
+	        throw new IllegalStateException("이미지 저장 폴더에 쓰기 권한이 없습니다: " + imageDirectory);
+	    }
+	    return imageDirectory.toFile();
 	}
 }

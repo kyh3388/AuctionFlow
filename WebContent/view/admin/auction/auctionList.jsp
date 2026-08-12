@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
-
 <%@ page import="coreframe.data.DataSet" %>
 <%@ page import="java.text.DecimalFormat" %>
 
@@ -15,7 +14,6 @@
 <%
 		return;
 	}
-
 	request.setAttribute("ADMIN_MENU", "AUCTION");
 %>
 
@@ -30,7 +28,7 @@
 	}
 
 	private String statusText(String status) {
-
+		
 		if ("ONGOING".equals(status)) {
 			return "진행중";
 		}
@@ -50,11 +48,9 @@
 	}
 
 	private String displayText(String value) {
-
 		if (value == null || value.isBlank()) {
 			return "-";
 		}
-
 		return value;
 	}
 %>
@@ -70,24 +66,17 @@
 <%
 		return;
 	}
-
 	int auctionCount = auctionList.getCount("A_NO");
-
 	String auctionMessage = (String) request.getAttribute("ADMIN_AUCTION_MESSAGE");
-
 	String contextPath = request.getContextPath();
-
 	DecimalFormat priceFormat = new DecimalFormat("#,###");
 %>
 
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
 	<meta charset="UTF-8">
-
 	<title>AuctionFlow 경매 관리</title>
-
 	<link rel="stylesheet" href="<%= contextPath %>/static/css/admin/common/sidebar.css">
 	<link rel="stylesheet" href="<%= contextPath %>/static/css/admin/auction/auctionList.css">
 </head>
@@ -99,7 +88,6 @@
 		<jsp:include page="/view/admin/common/sidebar.jsp" />
 
 		<main class="admin-content">
-
 			<div class="admin-page-header">
 				<div>
 					<h1 class="admin-page-title">경매 관리</h1>
@@ -110,23 +98,19 @@
 			<%
 				if (auctionMessage != null && !auctionMessage.isBlank()) {
 			%>
-
 				<div class="admin-action-message"><%= escapeHtml(auctionMessage) %></div>
 			<%
 				}
 			%>
 
 			<section class="admin-panel">
-
 				<div class="admin-panel-header">
 					<h2 class="admin-panel-title">경매 목록</h2>
 					<p class="admin-panel-count">총<strong><%= auctionCount %></strong>건</p>
 				</div>
 
 				<div class="admin-table-wrap">
-
 					<table class="admin-table auction-list-table">
-
 						<thead>
 							<tr>
 								<th>경매 번호</th>
@@ -145,7 +129,6 @@
 						</thead>
 
 						<tbody>
-
 							<%
 								if (auctionCount == 0) {
 							%>
@@ -154,7 +137,7 @@
 								</tr>
 							<%
 								} else {
-
+									
 									for (int i = 0; i < auctionCount; i++) {
 										long auctionNo = auctionList.getLong("A_NO", i);
 										String auctionCategory = auctionList.getText("A_CATEGORY", i);

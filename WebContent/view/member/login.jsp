@@ -29,28 +29,20 @@
 			<h1>로그인</h1>
 			
 			<form action="${pageContext.request.contextPath}/api/auctionFlow/member/login" method="post" class="login-form">
-				
 				<div class="form-row">
-					
 					<label for="memberId" class="blind">아이디</label>
-					
 					<input type="text" id="memberId" name="M_ID" class="input" placeholder="아이디 입력하기">
 				</div>
 				
 				<div class="form-row">
-					
 					<label for="memberPassword" class="blind">비밀번호</label>
-					
 					<input type="password" id="memberPassword" name="M_PW" class="input" placeholder="비밀번호 입력하기">
 				</div>
 				
 				<div class="save-id">
-					
 					<input type="checkbox" id="saveId" name="SAVE_ID" value="Y" class="check">
-					
 					<label for="saveId" class="check-label">아이디 저장</label>
 				</div>
-				
 				<%
 					if (loginMessage != null && !loginMessage.isBlank()) {
 				%>
@@ -58,18 +50,14 @@
 				<%
 					}
 				%>
-				
 				<button type="submit" class="btn btn-login">로그인</button>
 			</form>
 			
 			<nav class="login-menu">
-				
 				<a href="${pageContext.request.contextPath}/api/auctionFlow/member/findIdForm" class="login-link">아이디 찾기</a>		
 				<span class="divider">|</span>
-				
 				<a href="${pageContext.request.contextPath}/api/auctionFlow/member/findPasswordForm" class="login-link">비밀번호 찾기</a>		
 				<span class="divider">|</span>
-				
 				<a href="${pageContext.request.contextPath}/api/auctionFlow/member/joinForm" class="login-link">회원가입</a>		
 			</nav>
 		</div>
@@ -80,9 +68,8 @@
 <jsp:include page="/view/common/footer.jsp" />
 
 <script type="text/javascript">
-	
-	if ("${JOIN_SUCCESS_ALERT}" === "Y") {
 
+	if ("${JOIN_SUCCESS_ALERT}" === "Y") {
 		alert("회원가입을 완료했습니다.");
 	}
 </script>

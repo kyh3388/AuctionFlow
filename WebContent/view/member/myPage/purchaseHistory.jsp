@@ -69,15 +69,12 @@
 
 	<div class="mypage-layout">
 
-		<jsp:include
-			page="/view/member/myPage/common/sidebar.jsp" />
+		<jsp:include page="/view/member/myPage/common/sidebar.jsp" />
 
 		<section class="mypage-content">
 
 			<div class="mypage-content-header">
-
 				<h1 class="mypage-page-title">결제/구매 내역</h1>
-
 				<p class="mypage-page-description">낙찰받은 상품의 구매 상태와 최종 구매금액을 확인할 수 있습니다.</p>
 			</div>
 
@@ -89,14 +86,10 @@
 			<section class="purchase-section">
 
 				<div class="purchase-section-header">
-
 					<div>
-
 						<h2 class="purchase-section-title">구매 대기</h2>
-
 						<p class="purchase-section-description">낙찰받은 상품의 구매를 진행해 주세요.</p>
 					</div>
-
 					<span class="purchase-section-count"><%= waitingPurchaseCount %>건</span>
 				</div>
 
@@ -114,7 +107,6 @@
 						</colgroup>
 
 						<thead>
-
 							<tr>
 								<th scope="col">상품</th>
 								<th scope="col">낙찰가</th>
@@ -123,7 +115,6 @@
 								<th scope="col">낙찰일</th>
 								<th scope="col">관리</th>
 							</tr>
-
 						</thead>
 
 						<tbody>
@@ -152,20 +143,12 @@
 									long purchasePrice = purchaseHistoryList.getLong("PURCHASE_PRICE", rowIndex);
 									String closedDatetime = purchaseHistoryList.getText("A_CLOSED_DATETIME", rowIndex);
 						%>
-
 							<tr>
-
 								<td class="purchase-product-cell">
-
-									<button
-										type="button"
-										class="purchase-product-link"
-										onclick="window.open(
-											'${pageContext.request.contextPath}/api/auctionFlow/auction/detail?A_NO=<%= auctionNo %>',
-											'auctionDetail',
-											'width=1100,height=800,scrollbars=yes,resizable=yes'
-										);">
-
+									<button type="button" class="purchase-product-link"
+										    onclick="window.open('${pageContext.request.contextPath}/api/auctionFlow/auction/detail?A_NO=<%= auctionNo %>',
+											'auctionDetail', 'width=1100,height=800,scrollbars=yes,resizable=yes');">
+											
 										<%= escapeHtml(auctionTitle) %>
 									</button>
 								</td>
@@ -187,26 +170,9 @@
 								</td>
 
 								<td class="purchase-management-cell">
-
-									<form
-										action="${pageContext.request.contextPath}/api/auctionFlow/member/myPage/purchaseComplete"
-										method="post"
-										class="purchase-complete-form">
-
-										<input
-											type="hidden"
-											name="A_NO"
-											value="<%= auctionNo %>">
-
-										<button
-											type="submit"
-											class="purchase-button"
-											data-purchase-title="<%= escapeHtml(auctionTitle) %>"
-											data-purchase-price="<%= purchasePrice %>">
-
-											구매하기
-
-										</button>
+									<form action="${pageContext.request.contextPath}/api/auctionFlow/member/myPage/purchaseComplete" method="post" class="purchase-complete-form">
+										<input type="hidden" name="A_NO" value="<%= auctionNo %>">
+										<button type="submit" class="purchase-button" data-purchase-title="<%= escapeHtml(auctionTitle) %>" data-purchase-price="<%= purchasePrice %>">구매하기</button>
 									</form>
 								</td>
 							</tr>
@@ -224,11 +190,8 @@
 			<section class="purchase-section completed">
 
 				<div class="purchase-section-header">
-
 					<div>
-
 						<h2 class="purchase-section-title">구매 완료</h2>
-
 						<p class="purchase-section-description">구매가 완료된 낙찰 상품입니다.</p>
 					</div>
 					<span class="purchase-section-count"><%= completedPurchaseCount %>건</span>
@@ -248,7 +211,6 @@
 						</colgroup>
 
 						<thead>
-
 							<tr>
 								<th scope="col">상품</th>
 								<th scope="col">낙찰가</th>
@@ -260,11 +222,9 @@
 						</thead>
 
 						<tbody>
-
 						<%
 							if (purchaseHistoryList == null || completedPurchaseCount == 0) {
 						%>
-
 							<tr>
 								<td colspan="6" class="purchase-empty-cell">구매 완료한 상품이 없습니다.</td>
 							</tr>
@@ -276,19 +236,11 @@
 
 									String purchasedDatetime = purchaseHistoryList.getText("A_PURCHASED_DATETIME", rowIndex);
 
-									if (
-										purchasedDatetime == null
-										|| purchasedDatetime.isBlank()
-									) {
-
+									if (purchasedDatetime == null || purchasedDatetime.isBlank()) {
 										continue;
 									}
 
-									long auctionNo =
-										purchaseHistoryList.getLong(
-											"A_NO",
-											rowIndex
-										);
+									long auctionNo = purchaseHistoryList.getLong("A_NO", rowIndex);
 
 									String auctionTitle = purchaseHistoryList.getText("A_TITLE", rowIndex);
 
@@ -339,9 +291,7 @@
 
 		//구매 완료 후 팝업을 띄우고 RESULT 파라미터가 없는 구매 내역 화면으로 교체한다.
 		if (purchaseResult === "SUCCESS") {
-
 			alert("구매가 완료되었습니다.");
-
 			window.history.replaceState(null, "", "${pageContext.request.contextPath}/api/auctionFlow/member/myPage/purchaseHistory");
 		}
 

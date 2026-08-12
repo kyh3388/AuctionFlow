@@ -1,13 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" %>
-
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="coreframe.data.DataSet" %>
 
 <%
-	boolean isAdminLogin =
-		Boolean.TRUE.equals(
-			session.getAttribute("LOGIN_ADMIN")
-		);
+	boolean isAdminLogin = Boolean.TRUE.equals(session.getAttribute("LOGIN_ADMIN"));
 
 	if (!isAdminLogin) {
 %>
@@ -18,34 +13,22 @@
 		return;
 	}
 
-	request.setAttribute(
-		"ADMIN_MENU",
-		"MEMBER"
-	);
+	request.setAttribute("ADMIN_MENU", "MEMBER");
 %>
 
 <%!
 	private String escapeHtml(String value) {
 
 		if (value == null) {
-
 			return "";
 		}
 
-		return value
-			.replace("&", "&amp;")
-			.replace("<", "&lt;")
-			.replace(">", "&gt;")
-			.replace("\"", "&quot;")
-			.replace("'", "&#39;");
+		return value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#39;");
 	}
 %>
 
 <%
-	DataSet memberList =
-		(DataSet) request.getAttribute(
-			"MEMBER_LIST"
-		);
+	DataSet memberList = (DataSet) request.getAttribute("MEMBER_LIST");
 
 	if (memberList == null) {
 %>
@@ -56,69 +39,40 @@
 		return;
 	}
 
-	int memberCount =
-		memberList.getCount("M_NO");
+	int memberCount = memberList.getCount("M_NO");
 
-	String contextPath =
-		request.getContextPath();
+	String contextPath = request.getContextPath();
 %>
 
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-	<meta charset="UTF-8">
-
-	<title>AuctionFlow 회원 관리</title>
-
-	<link
-		rel="stylesheet"
-		href="<%= contextPath %>/static/css/admin/common/sidebar.css">
-
-	<link
-		rel="stylesheet"
-		href="<%= contextPath %>/static/css/admin/member/memberList.css">
+<meta charset="UTF-8">
+<title>AuctionFlow 회원 관리</title>
+<link rel="stylesheet" href="<%= contextPath %>/static/css/admin/common/sidebar.css">
+<link rel="stylesheet" href="<%= contextPath %>/static/css/admin/member/memberList.css">
 </head>
 
 <body>
 
 	<div class="admin-layout">
 
-		<jsp:include
-			page="/view/admin/common/sidebar.jsp" />
+		<jsp:include page="/view/admin/common/sidebar.jsp" />
 
 		<main class="admin-content">
 
 			<div class="admin-page-header">
-
 				<div>
-
-					<h1 class="admin-page-title">
-						회원 관리
-					</h1>
-
-					<p class="admin-page-description">
-						AuctionFlow 회원과 활동 현황을 확인합니다.
-					</p>
-
+					<h1 class="admin-page-title">회원 관리</h1>
+					<p class="admin-page-description">AuctionFlow 회원과 활동 현황을 확인합니다.</p>
 				</div>
-
 			</div>
 
 			<section class="admin-panel member-list-panel">
 
 				<div class="admin-panel-header">
-
-					<h2 class="admin-panel-title">
-						회원 목록
-					</h2>
-
-					<p class="admin-panel-count">
-						총
-						<strong><%= memberCount %></strong>
-						명
-					</p>
-
+					<h2 class="admin-panel-title">회원 목록</h2>
+					<p class="admin-panel-count">총 <strong><%= memberCount %></strong>명</p>
 				</div>
 
 				<div class="admin-table-wrap">
@@ -152,164 +106,54 @@
 						</thead>
 
 						<tbody>
-
 							<%
 								if (memberCount == 0) {
 							%>
-
 								<tr>
-									<td
-										colspan="9"
-										class="admin-table-empty">
-										조회된 회원이 없습니다.
-									</td>
+									<td colspan="9" class="admin-table-empty">조회된 회원이 없습니다.</td>
 								</tr>
-
 							<%
 								} else {
 
-									for (
-										int i = 0;
-										i < memberCount;
-										i++
-									) {
-
-										long memberNo =
-											memberList.getLong(
-												"M_NO",
-												i
-											);
-
-										String memberId =
-											memberList.getText(
-												"M_ID",
-												i
-											);
-
-										String memberName =
-											memberList.getText(
-												"M_NAME",
-												i
-											);
-
-										String memberPhoneNumber =
-											memberList.getText(
-												"M_PHONE_NUMBER",
-												i
-											);
-
-										String memberEmail =
-											memberList.getText(
-												"M_EMAIL",
-												i
-											);
-
-										long registerAuctionCount =
-											memberList.getLong(
-												"REGISTER_AUCTION_COUNT",
-												i
-											);
-
-										long bidCount =
-											memberList.getLong(
-												"BID_COUNT",
-												i
-											);
-
-										long winCount =
-											memberList.getLong(
-												"WIN_COUNT",
-												i
-											);
-
-										String createdDatetime =
-											memberList.getText(
-												"CREATED_DATETIME",
-												i
-											);
-
-										String memberDetailUrl =
-											contextPath
-											+ "/api/auctionFlow/admin/member/detail?M_NO="
-											+ memberNo;
+									for (int i = 0; i < memberCount; i++) {
+										long memberNo = memberList.getLong("M_NO", i);
+										String memberId = memberList.getText("M_ID", i);
+										String memberName = memberList.getText("M_NAME", i);
+										String memberPhoneNumber = memberList.getText("M_PHONE_NUMBER", i);
+										String memberEmail = memberList.getText("M_EMAIL", i);
+										long registerAuctionCount = memberList.getLong("REGISTER_AUCTION_COUNT", i);
+										long bidCount = memberList.getLong("BID_COUNT", i);
+										long winCount = memberList.getLong("WIN_COUNT", i);
+										String createdDatetime = memberList.getText("CREATED_DATETIME", i);
+										String memberDetailUrl = contextPath + "/api/auctionFlow/admin/member/detail?M_NO=" + memberNo;
 							%>
-
-								<tr
-									class="member-row-link"
-									tabindex="0"
-									role="link"
-									aria-label="<%= escapeHtml(memberName) %> 회원 상세보기"
-									data-detail-url="<%= memberDetailUrl %>"
-									onclick="window.location.href=this.dataset.detailUrl;"
+								<tr class="member-row-link" tabindex="0" role="link" aria-label="<%= escapeHtml(memberName) %> 회원 상세보기"
+									data-detail-url="<%= memberDetailUrl %>" onclick="window.location.href=this.dataset.detailUrl;"
 									onkeydown="
-										if (
-											event.key === 'Enter'
-											|| event.key === ' '
-										) {
+										if (event.key === 'Enter' || event.key === ' ') {
 											event.preventDefault();
-											window.location.href =
-												this.dataset.detailUrl;
-										}
-									">
+											window.location.href = this.dataset.detailUrl;}">
 
-									<td>
-										<%= memberNo %>
-									</td>
-
-									<td class="member-id-cell">
-										<%= escapeHtml(memberId) %>
-									</td>
-
-									<td>
-										<%= escapeHtml(memberName) %>
-									</td>
-
-									<td>
-										<%= escapeHtml(memberPhoneNumber) %>
-									</td>
-
-									<td>
-										<%= escapeHtml(memberEmail) %>
-									</td>
-
-									<td>
-										<%= registerAuctionCount %>
-									</td>
-
-									<td>
-										<%= bidCount %>
-									</td>
-
-									<td>
-										<%= winCount %>
-									</td>
-
-									<td>
-										<%= escapeHtml(createdDatetime) %>
-									</td>
-
+									<td><%= memberNo %></td>
+									<td class="member-id-cell"><%= escapeHtml(memberId) %></td>
+									<td><%= escapeHtml(memberName) %></td>
+									<td><%= escapeHtml(memberPhoneNumber) %></td>
+									<td><%= escapeHtml(memberEmail) %></td>
+									<td><%= registerAuctionCount %></td>
+									<td><%= bidCount %></td>
+									<td><%= winCount %></td>
+									<td><%= escapeHtml(createdDatetime) %></td>
 								</tr>
 
 							<%
 									}
 								}
 							%>
-
 						</tbody>
-
 					</table>
-
 				</div>
-
-				<div class="admin-pagination">
-					<!-- 페이징 구현 시 사용 -->
-				</div>
-
 			</section>
-
 		</main>
-
 	</div>
-
 </body>
 </html>

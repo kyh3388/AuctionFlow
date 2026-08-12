@@ -51,7 +51,6 @@
 <body>
 	<div class="error-page">
 		<p class="error-message">이 화면이 보이면 관리자에게 문의해 주세요.</p>
-		
 		<a href="${pageContext.request.contextPath}/api/auctionFlow/main" class="error-link">홈페이지로 돌아가기</a>
 	</div>
 </body>

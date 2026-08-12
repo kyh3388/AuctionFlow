@@ -96,28 +96,24 @@ document.addEventListener("DOMContentLoaded", function () {
 	searchOpenBtn.addEventListener("click", function (event) {
 			event.stopPropagation();
 			toggleSearchPanel();
-		}
-	);
+		});
 
 	searchPanel.addEventListener("click", function (event) {
 			event.stopPropagation();
-		}
-	);
+		});
 
 	document.addEventListener("click", function (event) {
 			if (!searchWrap.contains(event.target)) {
 				closeSearchPanel();
 			}
-		}
-	);
+		});
 
 	document.addEventListener("keydown", function (event) {
 			if (event.key === "Escape") {
 				closeSearchPanel();
 				searchOpenBtn.focus();
 			}
-		}
-	);
+		});
 
 	searchForm.addEventListener("submit", function (event) {
 			const keyword = searchKeyword.value.trim();
@@ -130,8 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			searchKeyword.value = keyword;
-		}
-	);
+		});
 });
 </script>
 
@@ -153,9 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		//비로그인 상태일 경우
 		event.preventDefault();
-		
 		alert("로그인 후 경매를 등록할 수 있습니다.");
-		
 		window.location.href = "${pageContext.request.contextPath}/api/auctionFlow/member/loginForm";
 	});
 })();

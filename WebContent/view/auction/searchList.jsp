@@ -4,16 +4,10 @@
 
 <%!
 	private String escapeHtml(String value) {
-	
 		if (value == null) {
 			return "";
 		}
-		return value
-				.replace("&", "&amp;")
-				.replace("<", "&lt;")
-				.replace(">", "&gt;")
-				.replace("\"", "&quot;")
-				.replace("'", "&#39;");
+		return value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#39;");
 	}
 	private String statusText(String status) {
 		
@@ -86,9 +80,7 @@
 			<div class="auction-section-header">
 
 				<div class="section-title-wrap">
-
 					<span class="section-badge">Search</span>
-
 					<h1 class="auction-section-title">'<%= escapeHtml(searchKeyword) %>'검색 결과</h1>
 				</div>
 
@@ -103,7 +95,6 @@
 						<label for="auctionSort" class="blind">검색 결과 정렬</label>
 						
 						<select name="SORT" id="auctionSort" class="sort-select" onchange="this.form.submit();">
-						
 							<option value="LATEST" <%= "LATEST".equals(selectedSort) ? "selected" : "" %>>최신 등록순</option>
 							<option value="OLDEST" <%= "OLDEST".equals(selectedSort) ? "selected" : "" %>>오래된 등록순</option>
 							<option value="PRICE_HIGH" <%= "PRICE_HIGH".equals(selectedSort) ? "selected" : "" %>>시작가 높은순</option>
@@ -117,20 +108,16 @@
 				if (auctionCount == 0) {
 			%>
 				<div class="empty-box">
-
 					<p class="empty-title">검색 결과가 없습니다.</p>
-					
 					<p class="empty-text">'<%= escapeHtml(searchKeyword) %>'과 일치하는 진행 경매 상품이 없습니다.</p>
 				</div>
 			<%
 				} else {
 			%>
-
 				<div class="auction-grid">
-
 					<%
 						for (int i = 0; i < auctionCount; i++) {
-
+							
 							long auctionNo = auctionList.getLong("A_NO", i);						
 							String auctionTitle = auctionList.getText("A_TITLE", i);
 							long currentPrice = auctionList.getLong("A_CURRENT_PRICE", i);
@@ -138,21 +125,17 @@
 							String auctionEndDatetime = auctionList.getText("A_END_DATETIME", i);
 							String imageStoredName = auctionList.getText("IMG_STORED_NAME", i);
 					%>
-
 						<a href="${pageContext.request.contextPath}/api/auctionFlow/auction/detail?A_NO=<%= auctionNo %>" class="auction-card">
 
 							<div class="auction-image-box">
-
 								<%
 									if (imageStoredName != null && !imageStoredName.isBlank()) {
 								%>
-
 									<img src="${pageContext.request.contextPath}/api/auctionFlow/auction/image?IMG_STORED_NAME=<%= escapeHtml(imageStoredName) %>"
 										alt="<%= escapeHtml(auctionTitle) %>" class="auction-image">
 								<%
 									} else {
 								%>
-
 									<div class="auction-image-placeholder">NO IMAGE</div>
 								<%
 									}
@@ -160,19 +143,13 @@
 							</div>
 
 							<div class="auction-info">
-
 								<div class="auction-meta-row">
-
 									<span class="auction-status ongoing"><%= escapeHtml(statusText(auctionStatus)) %></span>
-
 								</div>
 
 								<h2 class="auction-title"><%= escapeHtml(auctionTitle) %></h2>
-
 								<p class="auction-price-label">현재가</p>
-
 								<p class="auction-price"><%= priceFormat.format(currentPrice) %>원</p>
-
 								<p class="auction-end-date">종료일 <%= escapeHtml(auctionEndDatetime) %></p>
 							</div>
 						</a>

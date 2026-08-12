@@ -17,30 +17,23 @@
 <jsp:include page="/view/common/header.jsp" />
 
 <main class="main">
-
 	<section class="auction-register">
-
 		<div class="auction-register-inner">
-
+		
 			<div class="title-box">
-
 				<h1 class="title">경매 상품 등록</h1>
 			</div>
-
+			
 			<div class="guide-box">
-
 				<p class="guide-text">· 경매는 등록 즉시 시작되며, 선택한 진행시간이 지나면 자동으로 종료됩니다.</p>
 				<p class="guide-text">· 대표 이미지 1장과 추가 이미지를 함께 등록할 수 있습니다.</p>
 			</div>
 
-			<form
-				action="${pageContext.request.contextPath}/api/auctionFlow/auction/register"
-				method="post" enctype="multipart/form-data" class="form" id="auctionRegisterForm">
+			<form action="${pageContext.request.contextPath}/api/auctionFlow/auction/register"
+				  method="post" enctype="multipart/form-data" class="form" id="auctionRegisterForm">
 
 				<div class="form-row">
-
 					<label for="auctionCategory" class="label">카테고리</label>
-
 					<select id="auctionCategory" name="A_CATEGORY" class="input select-input" required>
 						<option value="고서적" ${A_CATEGORY == '고서적' ? 'selected' : ''}>고서적</option>
 						<option value="미술품" ${A_CATEGORY == '미술품' ? 'selected' : ''}>미술품</option>
@@ -50,27 +43,19 @@
 				</div>
 
 				<div class="form-row">
-
 					<label for="auctionTitle" class="label">상품명</label>
-
-					<input
-						type="text" id="auctionTitle" name="A_TITLE" class="input" value="${A_TITLE}"
-						placeholder="상품명을 입력해 주세요." maxlength="200" required>
+					<input type="text" id="auctionTitle" name="A_TITLE" class="input" value="${A_TITLE}"
+						   placeholder="상품명을 입력해 주세요." maxlength="200" required>
 				</div>
 
 				<div class="form-row">
-
 					<label for="auctionContent" class="label">상품 설명</label>
-
 					<textarea id="auctionContent" name="A_CONTENT" class="textarea" placeholder="상품 설명을 입력해 주세요." required>${A_CONTENT}</textarea>
 				</div>
 				
 				<div class="form-row">
-
 					<label for="auctionDurationTime" class="label">경매 진행시간</label>
-				
 					<select id="auctionDurationTime" name="A_DURATION_TIME" class="input select-input" required>
-					
 						<option value="1" ${A_DURATION_TIME == '1' ? 'selected' : ''}>1분</option>
 						<option value="5" ${A_DURATION_TIME == '5' ? 'selected' : ''}>5분</option>
 						<option value="10" ${A_DURATION_TIME == '10' ? 'selected' : ''}>10분</option>
@@ -89,32 +74,22 @@
 				</div>
 				
 				<div class="form-row">
-				
 					<label for="mainImage" class="label">대표 이미지</label>
-					
 					<div class="file-box">
-						
 						<input type="file" id="mainImage" name="MAIN_IMAGE" class="file-input" required>
-						
 						<p class="file-guide">대표 이미지는 상품 목록과 상세 화면에서 가장 먼저 보이는 이미지입니다.</p>
 						<p class="file-guide">허용 양식: jpg,jpeg,png,webp</p>
 					</div>
 				</div>
 				
 				<div class="form-row">
-				
 					<label class="label">추가 이미지</label>
-					
 					<div class="file-box">
-					
 						<div id="subImageList" class="sub-image-list">
-						
 							<div class="sub-image-row">
-						
 								<input type="file" name="SUB_IMAGES" class="file-input sub-image-input">
 							</div>
 						</div>
-						
 						<p class="file-guide">파일을 선택하면 다음 이미지 입력란이 자동으로 추가됩니다.</p>
 						<p class="file-guide">선택하지 않아도 상품 등록은 가능합니다.</p>
 						<p class="file-guide">허용 양식: jpg,jpeg,png,webp</p>
@@ -122,29 +97,20 @@
 				</div>
 
 				<div class="form-row">
-
 					<label for="auctionStartPrice" class="label">시작가</label>
-					
 					<div class="price-input-wrap">
-						
 						<button type="button" class="price-step-btn" id="priceMinusBtn">-</button>
-						
-						<input
-						type="text" id="auctionStartPrice" name="A_START_PRICE" class="input price-input"
-						value="${A_START_PRICE}" placeholder="시작가를 입력해 주세요." inputmode="numeric" required>
-						
+						<input type="text" id="auctionStartPrice" name="A_START_PRICE" class="input price-input"
+						       value="${A_START_PRICE}" placeholder="시작가를 입력해 주세요." inputmode="numeric" required>
 						<button type="button" class="price-step-btn" id="pricePlusBtn">+</button>
 					</div>
-
 					<p class="price-guide">시작가는 50,000원 단위로 조정할 수 있습니다.</p>
 				</div>
 
 				<p class="message auction-register-message">${AUCTION_REGISTER_MESSAGE}</p>
-
+				
 				<div class="button-area">
-
 					<button type="submit" class="btn btn-submit">상품 등록</button>
-
 					<a href="${pageContext.request.contextPath}/api/auctionFlow/main" class="btn btn-cancel">취소</a>
 				</div>
 			</form>
@@ -162,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	// =========================================================
 	// 1. 시작가 입력 처리
 	// =========================================================
-
 	const auctionRegisterForm = document.getElementById("auctionRegisterForm");
 	const priceInput = document.getElementById("auctionStartPrice");
 	const priceMinusBtn = document.getElementById("priceMinusBtn");
@@ -170,41 +135,32 @@ document.addEventListener("DOMContentLoaded", function () {
 	const PRICE_STEP = 50000;
 
 	function removeComma(value) {
-
 		if (!value) {
 			return "";
 		}
-
 		return value.replaceAll(",", "").replace(/[^0-9]/g, "");
 	}
 
 	function addComma(value) {
-
 		if (!value) {
 			return "";
 		}
-
 		return Number(value).toLocaleString("ko-KR");
 	}
 
 	function getPriceNumber() {
-
 		const numericText = removeComma(priceInput.value);
-
 		if (!numericText) {
 			return 0;
 		}
-
 		return Number(numericText);
 	}
 
 	function setPriceNumber(price) {
-
 		if (price <= 0) {
 			priceInput.value = "";
 			return;
 		}
-
 		priceInput.value = addComma(String(price));
 	}
 
@@ -266,71 +222,48 @@ document.addEventListener("DOMContentLoaded", function () {
 	// =========================================================
 	// 2. 추가 이미지 input 자동 생성
 	// =========================================================
-
 	const subImageList = document.getElementById("subImageList");
-
 
 	//새로운 빈 추가 이미지 입력 행을 생성한다.
 	function createSubImageRow() {
-
 		const subImageRow = document.createElement("div");
-
 		subImageRow.className = "sub-image-row";
-
 		const subImageInput = document.createElement("input");
-
 		subImageInput.type = "file";
-
 		subImageInput.name = "SUB_IMAGES";
-
 		subImageInput.className = "file-input sub-image-input";
-
 		subImageInput.accept = ".jpg,.jpeg,.png,.webp";
-
 		subImageRow.appendChild(subImageInput);
-
 		return subImageRow;
 	}
 
 	//파일이 선택된 행에 삭제 버튼을 추가한다.
 	function addRemoveButton(subImageRow) {
-
 		const existingRemoveButton = subImageRow.querySelector(".sub-image-remove-btn");
-
 		if (existingRemoveButton) {
 			return;
 		}
-
 		const removeButton = document.createElement("button");
-
 		removeButton.type = "button";
-
 		removeButton.className = "sub-image-remove-btn";
-
 		removeButton.textContent = "삭제";
-
 		subImageRow.appendChild(removeButton);
 	}
 
 	//목록 마지막에 빈 파일 입력란이 항상 하나 존재하도록 한다.
 	function ensureEmptySubImageInput() {
-
 		const subImageInputs = subImageList.querySelectorAll(".sub-image-input");
-
 		if (subImageInputs.length === 0) {
 			subImageList.appendChild(createSubImageRow());
 			return;
 		}
-
 		const lastSubImageInput = subImageInputs[subImageInputs.length - 1];
-
 		if (lastSubImageInput.files && lastSubImageInput.files.length > 0) {
 			subImageList.appendChild(createSubImageRow());
 		}
 	}
 
 	if (subImageList) {
-
 		//동적으로 생성된 input에도 적용되도록 상위 목록에서 change 이벤트를 처리한다.
 		subImageList.addEventListener("change", function (event) {
 
@@ -356,7 +289,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (subImageRow !== lastSubImageRow) {
 					subImageRow.remove();
 				}
-
 				ensureEmptySubImageInput();
 			}
 		);

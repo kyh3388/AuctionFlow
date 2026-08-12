@@ -97,7 +97,6 @@
 					<p class="auction-section-count">총 <%= auctionCount %>건</p>
 
 					<form action="${pageContext.request.contextPath}/api/auctionFlow/auction/pastList" method="get" class="sort-form">
-
 						<label for="auctionSort" class="blind">지난 경매 정렬</label>
 
 						<select name="SORT" id="auctionSort" class="sort-select" onchange="this.form.submit();">
@@ -113,17 +112,13 @@
 			<%
 				if (auctionCount == 0) {
 			%>
-
 				<div class="empty-box">
-
 					<p class="empty-title">지난 경매가 없습니다.</p>
-
 					<p class="empty-text">종료된 경매가 생기면 지난 경매 목록에 표시됩니다.</p>
 				</div>
 			<%
 				} else {
 			%>
-
 				<div class="auction-grid">
 					<%
 						for (int i=0; i<auctionCount; i++) {
@@ -141,18 +136,15 @@
 								displayDatetime = auctionEndDatetime;
 							}
 					%>
-
 						<a href="${pageContext.request.contextPath}/api/auctionFlow/auction/detail?A_NO=<%= auctionNo %>" class="auction-card">
 
 							<div class="auction-image-box">
-
 								<%
 									if (imageStoredName != null && !imageStoredName.isBlank()) {
 								%>
 									<img src="${pageContext.request.contextPath}/api/auctionFlow/auction/image?IMG_STORED_NAME=<%= escapeHtml(imageStoredName) %>"
 										 alt="<%= escapeHtml(auctionTitle) %>" class="auction-image">
 								<%
-
 									} else {
 								%>
 									<div class="auction-image-placeholder">NO IMAGE</div>
@@ -162,19 +154,10 @@
 							</div>
 
 							<div class="auction-info">
-							
 								<h2 class="auction-title"><%= escapeHtml(auctionTitle) %></h2>
-								
 								<p class="auction-price-label">경매 상태</p>
-								
-								<p class="auction-price auction-result <%= auctionResultClass(auctionStatus) %>">
-									<%= escapeHtml(auctionResultText(auctionStatus)) %>
-								</p>
-
-								<p class="auction-end-date">
-									<%= isCanceled ? "취소일" : "종료일" %>
-									<%= escapeHtml(displayText(displayDatetime)) %>
-								</p>
+								<p class="auction-price auction-result <%= auctionResultClass(auctionStatus) %>"><%= escapeHtml(auctionResultText(auctionStatus)) %></p>
+								<p class="auction-end-date"><%= isCanceled ? "취소일" : "종료일" %><%= escapeHtml(displayText(displayDatetime)) %></p>
 							</div>
 						</a>
 					<%

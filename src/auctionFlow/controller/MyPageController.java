@@ -447,9 +447,21 @@ public class MyPageController {
 			String newPassword = params.getText("NEW_PASSWORD");
 			String newPasswordConfirm = params.getText("NEW_PASSWORD_CONFIRM");
 
-			//세 비밀번호 입력값 공백 검사
-			if (isEmpty(currentPassword) || isEmpty(newPassword) || isEmpty(newPasswordConfirm)) {
-				view.setRedirectUrl("./changePassword?RESULT=EMPTY");
+			//현재 비밀번호 공백 검사
+			if (isEmpty(currentPassword)) {
+				view.setRedirectUrl("./changePassword?RESULT=CURRENT_PASSWORD_EMPTY");
+				return;
+			}
+
+			//새 비밀번호 공백 검사
+			if (isEmpty(newPassword)) {
+				view.setRedirectUrl("./changePassword?RESULT=NEW_PASSWORD_EMPTY");
+				return;
+			}
+
+			//새 비밀번호 확인 공백 검사
+			if (isEmpty(newPasswordConfirm)) {
+				view.setRedirectUrl("./changePassword?RESULT=NEW_PASSWORD_CONFIRM_EMPTY");
 				return;
 			}
 
@@ -487,34 +499,32 @@ public class MyPageController {
 
 	//5-2. 비밀번호 변경 결과 메시지 설정
 	private void setChangePasswordResultMessage(String result, ViewMeta view) {
-
 		if ("SUCCESS".equals(result)) {
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE", "비밀번호가 변경되었습니다.");
 			view.setAttribute("CHANGE_PASSWORD_MESSAGE_TYPE", "success");
 			return;
 		}
-
-		if ("EMPTY".equals(result)) {
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE", "현재 비밀번호와 새 비밀번호를 모두 입력해 주세요.");
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE_TYPE", "error");
+		if ("CURRENT_PASSWORD_EMPTY".equals(result)) {
+			view.setAttribute("CURRENT_PASSWORD_MESSAGE", "현재 비밀번호를 입력해 주세요.");
 			return;
 		}
-
 		if ("CURRENT_PASSWORD_MISMATCH".equals(result)) {
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE", "현재 비밀번호가 일치하지 않습니다.");
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE_TYPE", "error");
+			view.setAttribute("CURRENT_PASSWORD_MESSAGE", "현재 비밀번호가 일치하지 않습니다.");
 			return;
 		}
-
+		if ("NEW_PASSWORD_EMPTY".equals(result)) {
+			view.setAttribute("NEW_PASSWORD_MESSAGE", "새 비밀번호를 입력해 주세요.");
+			return;
+		}
+		if ("NEW_PASSWORD_CONFIRM_EMPTY".equals(result)) {
+			view.setAttribute("NEW_PASSWORD_CONFIRM_MESSAGE", "새 비밀번호 확인을 입력해 주세요.");
+			return;
+		}
 		if ("NEW_PASSWORD_MISMATCH".equals(result)) {
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE", "새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.");
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE_TYPE", "error");
+			view.setAttribute("NEW_PASSWORD_CONFIRM_MESSAGE", "새 비밀번호가 일치하지 않습니다.");
 			return;
 		}
-
 		if ("SAME_PASSWORD".equals(result)) {
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE", "새 비밀번호는 현재 비밀번호와 다르게 입력해 주세요.");
-			view.setAttribute("CHANGE_PASSWORD_MESSAGE_TYPE", "error");
+			view.setAttribute("NEW_PASSWORD_MESSAGE", "현재 비밀번호와 다른 비밀번호를 입력해 주세요.");
 		}
 	}
 

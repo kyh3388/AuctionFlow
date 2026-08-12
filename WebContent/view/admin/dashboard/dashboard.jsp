@@ -184,24 +184,15 @@
 		<main class="admin-content">
 
 			<div class="admin-page-header">
-
 				<h1 class="admin-page-title">통계</h1>
-
 				<p class="admin-page-description">AuctionFlow의 주요 운영 현황을 확인합니다.</p>
 			</div>
 
 			<!-- 주요 통계 카드 -->
 			<section class="admin-stat-card-list" aria-label="주요 통계">
-
 				<article class="admin-stat-card">
-
 					<p class="admin-stat-card-title">총 낙찰액</p>
-
-					<p class="admin-stat-card-value">
-
-						<%= priceFormat.format(totalSoldAmount) %><span class="admin-stat-card-unit">원</span>
-					</p>
-
+					<p class="admin-stat-card-value"><%= priceFormat.format(totalSoldAmount) %><span class="admin-stat-card-unit">원</span></p>
 					<p class="admin-stat-card-description">낙찰 완료된 경매의 낙찰가 합계</p>
 				</article>
 
@@ -225,14 +216,11 @@
 				<article class="admin-chart-card admin-chart-card-bar">
 
 					<div class="admin-chart-card-header">
-
 						<div>
-
 							<h2 class="admin-chart-card-title">일일 경매 등록 현황</h2>
-
 							<p class="admin-chart-card-description">최근 7일간 등록된 경매 수</p>
 						</div>
-
+						
 						<span class="admin-chart-card-unit">단위: 건</span>
 					</div>
 

@@ -5,12 +5,8 @@
 	<processor-info type="dbms" datasource="auctionDB">
 	
 		<!--
-			중요:
-			transaction-type=rollback은 이 BLD의 모든 SQL을 동일 커넥션과
-			하나의 트랜잭션으로 묶는다. 정상 종료 시 커밋하고,
-			중간 SQL 오류가 발생하면 전체를 롤백한다.
-			따라서 SELECT ... FOR UPDATE의 행 잠금이 UPDATE와 INSERT가
-			끝날 때까지 유지된다.
+			transaction-type=rollback은 이 BLD의 모든 SQL을 동일 커넥션과 하나의 트랜잭션으로 묶는다. 정상 종료 시 커밋하고, 중간 SQL 오류가 발생하면 전체를 롤백한다.
+			따라서 SELECT ... FOR UPDATE의 행 잠금이 UPDATE와 INSERT가 끝날 때까지 유지된다.
 		-->
 		<transaction-type>rollback</transaction-type>
 		
@@ -30,31 +26,30 @@
 		
 		<!--
 			경매 행을 잠그고 최종 거절 판단에 필요한 최신 데이터를 읽는다.
-			동시에 들어온 후속 요청은 선행 요청의 COMMIT까지 여기서 대기한 뒤,
-			변경된 최신 현재가와 입찰 수를 읽는다.
+			동시에 들어온 후속 요청은 선행 요청의 COMMIT까지 여기서 대기한 뒤, 변경된 최신 현재가와 입찰 수를 읽는다.
 		-->
 		<sql id="lockAuction">
 			<query>
 				SELECT
 					A.A_NO,
-					A.M_NO AS SELLER_M_NO,
+					A.M_NO AS SELLER_M_NO, #판매자 회원번호(자기꺼 입찰 방지)
 					A.A_STATUS,
 					A.A_BID_COUNT AS BEFORE_BID_COUNT,
 					CASE
 						WHEN A.A_END_DATETIME &lt;= NOW() THEN 1
 						ELSE 0
-					END AS IS_ENDED,
+					END AS IS_ENDED, #경매 종료시간 초과 여부
 					CASE
 						WHEN A.A_BID_COUNT = 0 THEN A.A_START_PRICE
 						ELSE A.A_CURRENT_PRICE + GREATEST(A.A_START_PRICE DIV 10, 50000)
-					END AS EXPECTED_BID_PRICE,
+					END AS EXPECTED_BID_PRICE, #정상 입찰가
 					(
 						SELECT
 							COUNT(*)
 						FROM
-							KYH_AF_AUCTION_BID B
+							KYH_AF_AUCTION_BID
 						WHERE
-							B.BID_REQUEST_ID = ?
+							BID_REQUEST_ID = ?
 					) AS DUPLICATE_REQUEST_COUNT
 				FROM
 					KYH_AF_AUCTION A
@@ -70,8 +65,7 @@
 		</sql>
 		
 		<!--
-			락 획득 후 최신 상태로 최종 조건을 다시 검사한다.
-			통과한 요청만 UPDATE 1건이 발생한다.
+			락 획득 후 최신 상태로 최종 조건을 다시 검사한다. 통과한 요청만 UPDATE 1건이 발생한다.
 		-->
 		<sql id="updateAuctionPrice">
 			<query>
@@ -83,25 +77,22 @@
 					A_BID_COUNT = A_BID_COUNT + 1,
 					UPDATED_DATETIME = NOW()
 				WHERE
-					A_NO = ?
+					A_NO = ? #해당 경매가 존재하는가.
 				AND
-					M_NO &lt;&gt; ?
+					M_NO &lt;&gt; ? #판매자 자신이 아닌가.
 				AND
-					A_STATUS = 'ONGOING'
+					A_STATUS = 'ONGOING' #진행중인가.
 				AND
-					A_END_DATETIME &gt; NOW()
+					A_END_DATETIME &gt; NOW() #종료 전인가.
 				AND
 					CASE
 						WHEN A_BID_COUNT = 0 THEN A_START_PRICE
 						ELSE A_CURRENT_PRICE + GREATEST(A_START_PRICE DIV 10, 50000)
-					END = ?
+					END = ? #동일한 중복 요청이 아닌가.
 				AND NOT EXISTS (
-					SELECT
-						1
-					FROM
-						KYH_AF_AUCTION_BID B
-					WHERE
-						B.BID_REQUEST_ID = ?
+					SELECT 1
+					FROM KYH_AF_AUCTION_BID
+					WHERE BID_REQUEST_ID = ?
 				)
 			</query>
 			

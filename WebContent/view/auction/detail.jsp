@@ -2738,6 +2738,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         console.log("[AUCTION WS CONNECTING]", webSocketUrl);
         const socket = new WebSocket(webSocketUrl);
+        
         auctionWebSocket = socket;
         window.auctionWebSocket = socket;
         socket.addEventListener("open", function () {

@@ -75,6 +75,9 @@ public class AuctionService {
 		String storedFileName = imageType + "_" + auctionNo + "_" + UUID.randomUUID().toString().replace("-", "") + extension;
 		
 		File storedFile = new File(storedDirectory, storedFileName);
+		System.out.println("storedDirectory 변수값 확인 : " + storedDirectory);
+		System.out.println("storedFileName 변수값 확인 : " + storedFileName);
+		System.out.println("storedFile 변수값 확인 : " + storedFile);
 		
 		boolean isFileSaved = false;
 		

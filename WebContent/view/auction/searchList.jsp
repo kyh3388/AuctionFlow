@@ -63,17 +63,17 @@
 <title>검색된 화면</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/common/header.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/common/footer.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/auction/searchList.css">
 </head>
 
-<body class="main-page">
+<body class="search-page">
 
 <!-- 공통 HEADER -->
 <jsp:include page="/view/common/header.jsp" />
 
-<main class="main">
+<main class="search">
 
-	<div class="main-inner">
+	<div class="search-inner">
 
 		<section class="auction-section">
 
@@ -122,8 +122,21 @@
 							String auctionTitle = auctionList.getText("A_TITLE", i);
 							long currentPrice = auctionList.getLong("A_CURRENT_PRICE", i);
 							String auctionStatus = auctionList.getText("A_STATUS", i);
+							String auctionStatusClass = auctionStatus == null ? "" : auctionStatus.toLowerCase();
 							String auctionEndDatetime = auctionList.getText("A_END_DATETIME", i);
+							String auctionClosedDatetime = auctionList.getText("A_CLOSED_DATETIME", i);
 							String imageStoredName = auctionList.getText("IMG_STORED_NAME", i);
+							
+							String auctionDatetimeLabel = "종료일";
+							String auctionDisplayDatetime = auctionEndDatetime;
+
+							if (!"ONGOING".equals(auctionStatus) && auctionClosedDatetime != null && !auctionClosedDatetime.isBlank()) {
+								auctionDisplayDatetime = auctionClosedDatetime;
+							}
+
+							if ("CANCELED".equals(auctionStatus)) {
+								auctionDatetimeLabel = "취소일";
+							}
 					%>
 						<a href="${pageContext.request.contextPath}/api/auctionFlow/auction/detail?A_NO=<%= auctionNo %>" class="auction-card">
 
@@ -144,13 +157,13 @@
 
 							<div class="auction-info">
 								<div class="auction-meta-row">
-									<span class="auction-status ongoing"><%= escapeHtml(statusText(auctionStatus)) %></span>
+									<span class="auction-status <%= escapeHtml(auctionStatusClass) %>"><%= escapeHtml(statusText(auctionStatus)) %></span>
 								</div>
 
 								<h2 class="auction-title"><%= escapeHtml(auctionTitle) %></h2>
 								<p class="auction-price-label">현재가</p>
 								<p class="auction-price"><%= priceFormat.format(currentPrice) %>원</p>
-								<p class="auction-end-date">종료일 <%= escapeHtml(auctionEndDatetime) %></p>
+								<p class="auction-end-date"><%= auctionDatetimeLabel %> <%= escapeHtml(auctionDisplayDatetime) %></p>
 							</div>
 						</a>
 					<%

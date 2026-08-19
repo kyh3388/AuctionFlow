@@ -102,8 +102,8 @@
 						<select name="SORT" id="auctionSort" class="sort-select" onchange="this.form.submit();">
 							<option value="LATEST" <%= "LATEST".equals(selectedSort) ? "selected" : "" %>>최신 등록순</option>
 							<option value="OLDEST" <%= "OLDEST".equals(selectedSort) ? "selected" : "" %>>오래된 등록순</option>
-							<option value="PRICE_HIGH" <%= "PRICE_HIGH".equals(selectedSort) ? "selected" : "" %>>시작가 높은순</option>
-							<option value="PRICE_LOW" <%= "PRICE_LOW".equals(selectedSort) ? "selected" : "" %>>시작가 낮은순</option>
+							<option value="PRICE_HIGH" <%= "PRICE_HIGH".equals(selectedSort) ? "selected" : "" %>>현재가 높은순</option>
+							<option value="PRICE_LOW" <%= "PRICE_LOW".equals(selectedSort) ? "selected" : "" %>>현재가 낮은순</option>
 						</select>
 					</form>
 				</div>

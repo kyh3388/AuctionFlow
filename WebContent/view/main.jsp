@@ -110,6 +110,7 @@
 								long bidCount = topPriceList.getLong("A_BID_COUNT", rowIndex);
 								String endDatetime = topPriceList.getText("A_END_DATETIME", rowIndex);
 								String imageStoredName = topPriceList.getText("IMG_STORED_NAME", rowIndex);
+								
 								int ranking = rowIndex + 1;
 						%>
 							<a href="${pageContext.request.contextPath}/api/auctionFlow/auction/detail?A_NO=<%= auctionNo %>" class="main-top-price-card rank-<%= ranking %>">

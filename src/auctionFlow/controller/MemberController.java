@@ -186,22 +186,41 @@ public class MemberController {
 			}
 			
 			DataSet loginMember = memberService.memberLogin(memberId, rawPassword);
-			
+
 			if (loginMember == null) {
-				view.setAttribute("LOGIN_MESSAGE", "아이디 또는 비밀번호가 일치하지 않습니다.");
-				view.setTemplatePage("view/member/login");
-				return;
+			    view.setAttribute("LOGIN_MESSAGE", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			    view.setTemplatePage("view/member/login");
+			    return;
 			}
-			
+
+			/* =========================
+			   로그인 전 세션 상태 확인
+			   ========================= */
+			System.out.println("===== LOGIN BEFORE =====");
+			System.out.println("SESSION ID = " + data.getSession().getId());
+			System.out.println("LOGIN_MEMBER_NO = " + data.getSession().getAttribute("LOGIN_MEMBER_NO"));
+			System.out.println("LOGIN_MEMBER_ID = " + data.getSession().getAttribute("LOGIN_MEMBER_ID"));
+			System.out.println("========================");
+
 			//기존 일반 회원 로그인 세션 제거
 			clearLoginSession(data);
-			
+
 			//기존 관리자 로그인 세션 제거
 			data.getSession().removeAttribute("LOGIN_ADMIN");
-			
+
 			data.getSession().setAttribute("LOGIN_MEMBER_NO", loginMember.getLong("M_NO"));
 			data.getSession().setAttribute("LOGIN_MEMBER_ID", loginMember.getText("M_ID"));
 			data.getSession().setAttribute("LOGIN_MEMBER_NAME", loginMember.getText("M_NAME"));
+
+			/* =========================
+			   로그인 후 세션 상태 확인
+			   ========================= */
+			System.out.println("===== LOGIN AFTER =====");
+			System.out.println("SESSION ID = " + data.getSession().getId());
+			System.out.println("LOGIN_MEMBER_NO = " + data.getSession().getAttribute("LOGIN_MEMBER_NO"));
+			System.out.println("LOGIN_MEMBER_ID = " + data.getSession().getAttribute("LOGIN_MEMBER_ID"));
+			System.out.println("LOGIN_MEMBER_NAME = " + data.getSession().getAttribute("LOGIN_MEMBER_NAME"));
+			System.out.println("=======================");
 			
 			//로그인 성공 팝업을 위한 1회성 세션값
 			data.getSession().setAttribute("LOGIN_SUCCESS_ALERT", "Y");

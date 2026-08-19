@@ -15,6 +15,7 @@
 					A.A_CURRENT_PRICE,
 					A.A_STATUS,
 					DATE_FORMAT(A.A_END_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_END_DATETIME,
+					DATE_FORMAT(A.A_CLOSED_DATETIME, '%Y-%m-%d %H:%i:%s') AS A_CLOSED_DATETIME,
 					I.IMG_STORED_NAME
 				FROM
 					KYH_AF_AUCTION A
@@ -60,7 +61,7 @@
 			
 			<mapping>
 				<setProperty>KEYWORD,SORT_LATEST,SORT_OLDEST,SORT_PRICE_HIGH,SORT_PRICE_LOW</setProperty>
-				<getProperty>A_NO,A_TITLE,A_CURRENT_PRICE,A_STATUS,A_END_DATETIME,IMG_STORED_NAME</getProperty>
+				<getProperty>A_NO,A_TITLE,A_CURRENT_PRICE,A_STATUS,A_END_DATETIME,A_CLOSED_DATETIME,IMG_STORED_NAME</getProperty>
 			</mapping>
 		</sql>
 	</processor-info>
@@ -82,6 +83,7 @@
 			<field name="A_CURRENT_PRICE" type="long" />
 			<field name="A_STATUS" type="string" />
 			<field name="A_END_DATETIME" type="string" />
+			<field name="A_CLOSED_DATETIME" type="string" />
 			<field name="IMG_STORED_NAME" type="string" />
 		</block>
 	</output>

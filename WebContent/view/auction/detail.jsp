@@ -695,7 +695,6 @@
 		/* =========================
 		   입찰 요청 식별번호
 		   ========================= */
-
 		function createBidRequestId() {
 
 			if (window.crypto && typeof window.crypto.randomUUID === "function") {

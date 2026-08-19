@@ -81,7 +81,7 @@
 
 				<div class="section-title-wrap">
 					<span class="section-badge">Search</span>
-					<h1 class="auction-section-title">'<%= escapeHtml(searchKeyword) %>'검색 결과</h1>
+					<h1 class="auction-section-title">'<%= escapeHtml(searchKeyword) %>' 검색 결과</h1>
 				</div>
 
 				<div class="auction-section-actions">
@@ -109,7 +109,7 @@
 			%>
 				<div class="empty-box">
 					<p class="empty-title">검색 결과가 없습니다.</p>
-					<p class="empty-text">'<%= escapeHtml(searchKeyword) %>'과 일치하는 진행 경매 상품이 없습니다.</p>
+					<p class="empty-text">'<%= escapeHtml(searchKeyword) %>'과 일치하는 경매 상품이 없습니다.</p>
 				</div>
 			<%
 				} else {

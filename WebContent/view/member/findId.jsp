@@ -47,7 +47,7 @@
 				%>
 					<a href="${pageContext.request.contextPath}/api/auctionFlow/member/logout" class="user-link">로그아웃</a>
 					<span class="user-divider">|</span>
-					<a href="${pageContext.request.contextPath}/api/auctionFlow/member/myPage" class="user-link">마이페이지</a>
+					<a href="${pageContext.request.contextPath}/api/auctionFlow/member/myPage/registerAuctionHistory" class="user-link">마이페이지</a>
 				<%
 					} else {
 				%>

@@ -237,7 +237,6 @@
 		const memberAddressMessage = document.getElementById("memberAddressMessage");
 		
 		const editProfileMessage = document.getElementById("editProfileMessage");
-		const editProfileResetButton = document.getElementById("editProfileResetButton");
 		const editProfileSubmitButton = document.getElementById("editProfileSubmitButton");
 		
 		const initialName = memberName.value.trim();
@@ -288,20 +287,6 @@
 
 		memberAddress.addEventListener("input", function () {
 				clearValidation(this, memberAddressMessage);
-			});
-
-
-		editProfileResetButton.addEventListener("click", function () {
-			
-				window.setTimeout(function () {
-						clearValidation(memberName, memberNameMessage);
-						clearValidation(memberPhoneNumber, memberPhoneNumberMessage);
-						clearValidation(memberEmail, memberEmailMessage);
-						clearValidation(memberAddress, memberAddressMessage);
-						editProfileMessage.textContent = "";
-						editProfileMessage.classList.remove("success", "error");
-						memberPhoneNumber.value = formatPhoneNumber(memberPhoneNumber.value);
-					}, 0);
 			});
 
 		editProfileForm.addEventListener("submit", function (event) {

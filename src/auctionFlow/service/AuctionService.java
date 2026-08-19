@@ -219,15 +219,18 @@ public class AuctionService {
 	//6. 경매 상품 제목 검색
 	public DataSet auctionSearchList(String keyword, String sort) throws Exception {
 		
+		Interaction interaction = InteractionFactory.getInteraction();
+		
+		DataSet closeInput = DataSet.newDefault();
+		interaction.execute("auction/closeExpired", closeInput);
+		
 		DataSet input = DataSet.newDefault();
 		input.put("KEYWORD", "%" + keyword + "%");
 		input.put("SORT_LATEST", sort);
 		input.put("SORT_OLDEST", sort);
 		input.put("SORT_PRICE_HIGH", sort);
 		input.put("SORT_PRICE_LOW", sort);
-		
-		Interaction interaction = InteractionFactory.getInteraction();
-		
+
 		DataSet output = interaction.execute("auction/search", input);
 		return output;
 	}

@@ -97,7 +97,7 @@
 					<h1 class="mypage-page-title">경매 등록 내역</h1>
 					<p class="mypage-page-description">내가 등록한 경매 상품과 진행 상태를 확인합니다.</p>
 				</div>
-				<a href="${pageContext.request.contextPath}/api/auctionFlow/auction/register" class="register-auction-button">경매 등록하기</a>
+				<a href="${pageContext.request.contextPath}/api/auctionFlow/auction/registerForm" class="register-auction-button">경매 등록하기</a>
 			</div>
 
 			<div class="register-history-summary">

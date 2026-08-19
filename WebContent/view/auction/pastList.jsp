@@ -157,7 +157,7 @@
 								<h2 class="auction-title"><%= escapeHtml(auctionTitle) %></h2>
 								<p class="auction-price-label">경매 상태</p>
 								<p class="auction-price auction-result <%= auctionResultClass(auctionStatus) %>"><%= escapeHtml(auctionResultText(auctionStatus)) %></p>
-								<p class="auction-end-date"><%= isCanceled ? "취소일" : "종료일" %><%= escapeHtml(displayText(displayDatetime)) %></p>
+								<p class="auction-end-date"><%= isCanceled ? "취소일" : "종료일" %> <%= escapeHtml(displayText(displayDatetime)) %></p>
 							</div>
 						</a>
 					<%

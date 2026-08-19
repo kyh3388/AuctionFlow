@@ -137,7 +137,7 @@ public class AuctionService {
 			try {
 				DataSet rollbackInput = DataSet.newDefault();
 				rollbackInput.put("A_NO", auctionNo);
-				interaction.execute("auction/deleteByAuctionNo", rollbackInput);
+				interaction.execute("auction/registerDelete", rollbackInput);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

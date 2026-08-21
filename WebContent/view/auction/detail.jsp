@@ -1526,10 +1526,13 @@ document.addEventListener("DOMContentLoaded", function () {
     
     async function refreshRealtimeAuction(reason) {
         realtimeRefreshRequested = true;
+        
+        //실행 중인지 아닌지 판단
         if (realtimeRefreshRunning) {
             return;
         }
         realtimeRefreshRunning = true;
+        
         try {
             while (realtimeRefreshRequested) {
                 realtimeRefreshRequested = false;

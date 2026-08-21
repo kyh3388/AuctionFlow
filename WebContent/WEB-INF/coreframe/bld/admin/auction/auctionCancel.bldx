@@ -10,36 +10,20 @@
 		<sql id="updateAuction">
 
 			<query>
-				UPDATE
-					KYH_AF_AUCTION
-
+				UPDATE KYH_AF_AUCTION
 				SET
 					A_STATUS = ?,
 					A_CLOSED_DATETIME = NOW(),
 					A_ADMIN_REASON = ?,
 					UPDATED_DATETIME = NOW()
-
-				WHERE
-					A_NO = ?
-
-				AND
-					A_STATUS = ?
-
-				AND
-					A_END_DATETIME &gt; NOW()
+				WHERE A_NO = ?
+				  AND A_STATUS = ?
+				  AND A_END_DATETIME &gt; NOW()
 			</query>
-
 			<mapping>
-				<setProperty>
-					A_STATUS_UPDATE,
-					A_ADMIN_REASON_UPDATE,
-					A_NO_UPDATE,
-					A_STATUS_CURRENT_CHECK
-				</setProperty>
-
+				<setProperty>A_STATUS_UPDATE,A_ADMIN_REASON_UPDATE,A_NO_UPDATE,A_STATUS_CURRENT_CHECK</setProperty>
 				<getProperty></getProperty>
 			</mapping>
-
 		</sql>
 
 		<!-- 최종 처리 결과 조회 -->
@@ -58,7 +42,6 @@
 
 				FROM
 					KYH_AF_AUCTION
-
 				WHERE
 					A_NO = ?
 			</query>

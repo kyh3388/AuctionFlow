@@ -111,7 +111,6 @@ public class AdminService {
 		if (isEnded == 1L) {
 			return "EXPIRED";
 		}
-
 		return null;
 	}
 

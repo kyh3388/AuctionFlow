@@ -22,6 +22,14 @@ public class MainController {
 	//1. 메인 화면
 	@UrlMapping("/main")
 	public void main(RequestData data, ViewMeta view) {
+		
+		System.out.println("===== MAIN SESSION =====");
+	    System.out.println("SESSION ID = " + data.getSession().getId());
+	    System.out.println("IS NEW = " + data.getSession().isNew());
+	    System.out.println("LOGIN_MEMBER_NO = " + data.getSession().getAttribute("LOGIN_MEMBER_NO"));
+	    System.out.println("LOGIN_MEMBER_ID = " + data.getSession().getAttribute("LOGIN_MEMBER_ID"));
+	    System.out.println("LOGIN_MEMBER_NAME = " + data.getSession().getAttribute("LOGIN_MEMBER_NAME"));
+	    System.out.println("========================");
 
 		try {
 			YearMonth currentYearMonth = YearMonth.now();

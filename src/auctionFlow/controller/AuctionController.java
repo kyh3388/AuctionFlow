@@ -56,6 +56,14 @@ public class AuctionController {
     // ============================================================
     @UrlMapping("/registerForm")
     public void auctionRegisterForm(RequestData data, ViewMeta view) {
+    	
+    	System.out.println("===== AUCTION REGISTER FORM =====");
+    	System.out.println("SESSION ID = " + data.getSession().getId());
+    	System.out.println("IS NEW = " + data.getSession().isNew());
+    	System.out.println("LOGIN_MEMBER_NO = " + data.getSession().getAttribute("LOGIN_MEMBER_NO"));
+    	System.out.println("LOGIN_MEMBER_ID = " + data.getSession().getAttribute("LOGIN_MEMBER_ID"));
+    	System.out.println("===============================");
+
         if (getLoginMemberNo(data) == null) {
             view.setRedirectUrl("../member/loginForm");
             return;

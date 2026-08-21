@@ -10,27 +10,23 @@
 
 			<query>
 				SELECT
-					A.A_NO,
-					A.A_TITLE,
-					A.A_STATUS,
-					A.A_BID_COUNT,
+					A_NO,
+					A_TITLE,
+					A_STATUS,
+					A_BID_COUNT,
 
-					COALESCE(
-						A.HIGHEST_BIDDER_M_NO,
-						0
-					) AS HIGHEST_BIDDER_M_NO,
+					COALESCE(HIGHEST_BIDDER_M_NO, 0) AS HIGHEST_BIDDER_M_NO,
 
 					CASE
-						WHEN A.A_END_DATETIME &lt;= NOW()
-							THEN 1
+						WHEN A_END_DATETIME &lt;= NOW() THEN 1
 						ELSE 0
 					END AS IS_ENDED
 
 				FROM
-					KYH_AF_AUCTION A
+					KYH_AF_AUCTION
 
 				WHERE
-					A.A_NO = ?
+					A_NO = ?
 			</query>
 
 			<mapping>
@@ -47,32 +43,23 @@
 					IS_ENDED
 				</getProperty>
 			</mapping>
-
 		</sql>
-
 	</processor-info>
 
 	<input>
 		<block repeat="1">
-
-			<field
-				name="A_NO"
-				type="long" />
-
+			<field name="A_NO" type="long" />
 		</block>
 	</input>
 
 	<output>
 		<block repeat="1">
-
 			<field name="A_NO" type="long" />
 			<field name="A_TITLE" type="string" />
 			<field name="A_STATUS" type="string" />
 			<field name="A_BID_COUNT" type="long" />
 			<field name="HIGHEST_BIDDER_M_NO" type="long" />
 			<field name="IS_ENDED" type="long" />
-
 		</block>
 	</output>
-
 </transaction>

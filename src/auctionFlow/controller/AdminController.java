@@ -83,7 +83,12 @@ public class AdminController {
 				view.setTemplatePage("view/error/error");
 				return;
 			}
-
+			
+			System.out.println("===== MEMBER PAGE SESSION =====");
+			System.out.println("SESSION ID = " + data.getSession().getId());
+			System.out.println("LOGIN_ADMIN = " + data.getSession().getAttribute("LOGIN_ADMIN"));
+			System.out.println("===============================");
+			
 			DataSet memberList = adminService.adminMemberList();
 
 			view.setAttribute("MEMBER_LIST", memberList);
@@ -279,13 +284,6 @@ public class AdminController {
 
 	//관리자 경매 조치 결과 메시지
 	private String createAuctionActionMessage(String resultCode) { 
-
-		if ("SOLD".equals(resultCode)) {
-			return "경매가 조기 종료되어 낙찰 처리되었습니다.";
-		}
-		if ("UNSOLD".equals(resultCode)) {
-			return "경매가 조기 종료되어 미낙찰 처리되었습니다.";
-		}
 		if ("CANCELED".equals(resultCode)) {
 			return "경매가 취소되었습니다.";
 		}
@@ -297,9 +295,6 @@ public class AdminController {
 		}
 		if ("EXPIRED".equals(resultCode)) {
 			return "이미 예정 종료 시간이 지난 경매입니다.";
-		}
-		if ("INVALID_ACTION".equals(resultCode)) {
-			return "관리자 경매 조치 유형이 올바르지 않습니다.";
 		}
 		return "경매 조치 처리에 실패했습니다.";
 	}

@@ -14,6 +14,7 @@ public class MemberController {
 	@Inject
 	private MemberService memberService;
 	
+	//관리자 ID 및 PW 샘플 입니다.
 	private static final String ADMIN_ID = "admin";
 	private static final String ADMIN_PW = "admin";
 	
@@ -145,6 +146,12 @@ public class MemberController {
 	@UrlMapping("/loginForm")
 	public void memberLoginForm(RequestData data, ViewMeta view) {
 		
+		System.out.println("===== LOGIN FORM SESSION =====");
+	    System.out.println("SESSION ID = " + data.getSession().getId());
+	    System.out.println("IS NEW = " + data.getSession().isNew());
+	    System.out.println("CREATION TIME = " + new java.util.Date(data.getSession().getCreationTime()));
+	    System.out.println("==============================");
+		
 		Object joinSuccessAlert = data.getSession().getAttribute("JOIN_SUCCESS_ALERT");
 		
 		if ("Y".equals(joinSuccessAlert)) {
@@ -181,6 +188,12 @@ public class MemberController {
 			if (ADMIN_ID.equals(memberId) && ADMIN_PW.equals(rawPassword)) {
 				clearLoginSession(data);
 				data.getSession().setAttribute("LOGIN_ADMIN", Boolean.TRUE);
+				
+				System.out.println("===== ADMIN LOGIN SESSION =====");
+			    System.out.println("SESSION ID = " + data.getSession().getId());
+			    System.out.println("LOGIN_ADMIN = " + data.getSession().getAttribute("LOGIN_ADMIN"));
+			    System.out.println("===============================");
+			    
 				view.setRedirectUrl("../admin/dashboard");
 				return;
 			}
@@ -248,7 +261,22 @@ public class MemberController {
 	@UrlMapping("/logout")
 	public void memberLogout(RequestData data, ViewMeta view) {
 		try {
+			
+			System.out.println("===== LOGOUT BEFORE =====");
+	        System.out.println("SESSION ID = " + data.getSession().getId());
+	        System.out.println("LOGIN_MEMBER_NO = " + data.getSession().getAttribute("LOGIN_MEMBER_NO"));
+	        System.out.println("LOGIN_MEMBER_ID = " + data.getSession().getAttribute("LOGIN_MEMBER_ID"));
+	        System.out.println("=========================");
+			
 			data.getSession().invalidate();
+			
+			System.out.println("===== SESSION INVALIDATED =====");
+	        System.out.println("기존 세션 무효화 완료");
+	        System.out.println("SESSION ID = " + data.getSession().getId());
+	        System.out.println("LOGIN_MEMBER_NO = " + data.getSession().getAttribute("LOGIN_MEMBER_NO"));
+	        System.out.println("LOGIN_MEMBER_ID = " + data.getSession().getAttribute("LOGIN_MEMBER_ID"));
+	        System.out.println("===============================");
+			
 			view.setRedirectUrl("../member/loginForm");
 		} catch (Exception e) {
 			throw new RuntimeException("로그아웃 처리 중 오류가 발생했습니다.", e);
